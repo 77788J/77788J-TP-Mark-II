@@ -2,8 +2,6 @@
 #define POSITION_TRACKER_H_
 
 #include "main.h"
-#define USE_USE_MATH_DEFINES
-#include <math.h>
 
 namespace position_tracker {
 
