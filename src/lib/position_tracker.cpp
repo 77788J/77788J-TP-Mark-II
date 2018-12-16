@@ -56,8 +56,8 @@ namespace position_tracker {
 
     // if no change in angle, calculate linearly
     if(prev_orientation == orientation) {
-      absolute_delta_x = dist * cos(orientation) + dist_side_wheel * cos(orientation + M_PI/2);
-      absolute_delta_y = dist * sin(orientation) + dist_side_wheel * sin(orientation + M_PI/2);
+      absolute_delta_x = dist * cos(orientation) + dist_side_wheel * cos(orientation + PI/2);
+      absolute_delta_y = dist * sin(orientation) + dist_side_wheel * sin(orientation + PI/2);
     }
 
     // otherwise, calculate via arc-based algorithm
@@ -70,8 +70,8 @@ namespace position_tracker {
       float radius_side = fabs(dist_side / delta_orientation); // radius of sideways arc
 
       // calculate reference delta positions
-      float delta_x = cos(reference_angle - (M_PI * .5)) * radius;
-      float delta_y = sin(reference_angle - (M_PI * .5)) * radius + radius;
+      float delta_x = cos(reference_angle - (PI * .5)) * radius;
+      float delta_y = sin(reference_angle - (PI * .5)) * radius + radius;
       float delta_x_side = -cos(reference_angle) * radius_side + radius_side;
       float delta_y_side = sin(reference_angle) * radius_side;
 
@@ -96,6 +96,6 @@ namespace position_tracker {
     y += absolute_delta_y;
     y_vel = (y_vel * .5f) + (absolute_delta_y * (1000.f/delta_t) * .5f);
     // (orientation calculated already)
-    angular_vel = (angular_vel * .5f) + (delta_orientation * (180.f/M_PI) * (1000.f/delta_t) * .5f);
+    angular_vel = (angular_vel * .5f) + (delta_orientation * (180.f/PI) * (1000.f/delta_t) * .5f);
   }
 }

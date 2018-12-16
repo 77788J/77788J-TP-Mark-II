@@ -11,8 +11,8 @@ namespace position_tracker {
   #define WHEEL_SIZE 4.125f // diameter of tracking wheels (inches)
 
   // conversion factors
-  #define ANGLE_TO_DIST(angle) WHEEL_SIZE * M_PI * angle/360.f // convert angle (degrees) to dist (inches)
-  #define DIST_TO_ANGLE(dist) dist * 360.f / (WHEEL_SIZE * M_PI) // convert dist (inches) to angle (degrees)
+  #define ANGLE_TO_DIST(angle) WHEEL_SIZE * PI * angle/360.f // convert angle (degrees) to dist (inches)
+  #define DIST_TO_ANGLE(dist) dist * 360.f / (WHEEL_SIZE * PI) // convert dist (inches) to angle (degrees)
   #define ORIENTATION_FROM_SIDE_DIST(dist_l, dist_r) (dist_r - dist_l) / TRACKER_DIST // calculate absolute orientation (radians) from left/right distances (inches)
 
   // sensors
