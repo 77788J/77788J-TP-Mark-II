@@ -33,26 +33,32 @@ namespace lift {
   void goto_height(float height) {
     goto_angle(calc_angle(height));
   }
-
+  
 
   // flip cap
   bool is_flipping = false;
+  float flip_height = HEIGHT_FLIP_GROUND;
   float height_after_flip = HEIGHT_FLIP_START;
-  void flip(float end_height) {
+  void flip(float start_height, float end_height) {
 
     is_flipping = true;
+    flip_height = start_height;
     height_after_flip = end_height;
     goto_height(HEIGHT_MAX);
   }
 
-  void flip() {
-    flip(HEIGHT_FLIP_START);
+  void flip_air() {
+    flip(HEIGHT_MAX, HEIGHT_FLIP_START);
+  }
+
+  void flip_ground() {
+    flip(HEIGHT_FLIP_GROUND, HEIGHT_MIN);
   }
 
 
   // update
   void update(int delta_t) {
-    if (is_flipping && get_height() >= HEIGHT_MAX - 2) {
+    if (is_flipping && get_height() >= flip_height - FLIP_BUFFER) {
       is_flipping = false;
       goto_height(height_after_flip);
     }
