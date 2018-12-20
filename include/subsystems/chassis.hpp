@@ -1,7 +1,7 @@
 #ifndef CHASSIS_H_
 #define CHASSIS_H_
 
-#include "main.h"
+#include "../main.h"
 
 namespace chassis {
 

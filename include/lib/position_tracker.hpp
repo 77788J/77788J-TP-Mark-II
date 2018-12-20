@@ -1,7 +1,7 @@
 #ifndef POSITION_TRACKER_H_
 #define POSITION_TRACKER_H_
 
-#include "main.h"
+#include "../main.h"
 
 namespace position_tracker {
 

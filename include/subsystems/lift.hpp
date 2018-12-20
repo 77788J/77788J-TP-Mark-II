@@ -1,7 +1,7 @@
 #ifndef LIFT_H_
 #define LIFT_H_
 
-#include "main.h"
+#include "../main.h"
 
 namespace lift {
 
