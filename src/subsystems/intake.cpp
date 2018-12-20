@@ -24,15 +24,14 @@ namespace intake {
       case (MODE_AUTO): break;
     }
 
-    motor.move_voltage(state);
+    motor.move_voltage(state * 12000);
   }
 
 
-  // toggle of/off
-  void toggle(int direction) { 
-    if (state == direction) set_mode(MODE_OFF);
-    else if (state == 1) set_mode(MODE_INTAKE);
-    else if (state == -1) set_mode(MODE_OUTTAKE);
+  // toggle on/off
+  void toggle(Mode new_mode) { 
+    if (new_mode == mode) set_mode(MODE_OFF);
+    set_mode(new_mode);
   }
 
 
