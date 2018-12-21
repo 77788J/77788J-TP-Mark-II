@@ -46,7 +46,7 @@ namespace chassis {
   }
 
   void move_position_absolute(float left, float right) {
-    move_position_absolute(left, right, 200);
+    move_position_absolute(left, right, 600);
   }
 
   void move_position_relative(float left, float right, float max_vel) {
@@ -57,6 +57,6 @@ namespace chassis {
   }
   
   void move_position_relative(float left, float right) {
-    move_position_relative(left, right, 200);
+    move_position_relative(left, right, 600);
   }
 }
