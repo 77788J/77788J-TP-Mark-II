@@ -47,7 +47,8 @@ namespace ball_tracker {
     pros::vision_object_s_t balls_raw[MAX_BAllS];
     ball_count = vision_sensor.read_by_sig(0, BALL_SIG, MAX_BAllS, balls_raw);
 
-    if (ball_count != PROS_ERR && ball_count > 0) {
+    if (ball_count == PROS_ERR || ball_count < 1) ball_count = 0;
+    else {
 
       // convert to Ball structs
       Ball balls_unsorted[ball_count];
