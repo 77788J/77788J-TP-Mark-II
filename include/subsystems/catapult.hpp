@@ -6,12 +6,12 @@
 namespace catapult {
 
   // positions
-  #define POSITION_LOAD 0 // loading angle of catapult (not slipgear)
-  #define POSITION_SLIP 0 // slip angle of catapult (not slipgear)
-  #define POSITION_RELEASE 0 // release angle of catapult (not slipgear)
+  static const float POSITION_LOAD = 0; // loading angle of catapult (not slipgear)
+  static const float POSITION_SLIP = 0; // slip angle of catapult (not slipgear)
+  static const float POSITION_RELEASE = 0; // release angle of catapult (not slipgear)
 
   // gear reduction (output/input)
-  #define REDUCTION 7.f/3.f
+  static const float REDUCTION = 7.f/3.f;
 
   // motor
   extern pros::Motor motor;

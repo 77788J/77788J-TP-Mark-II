@@ -14,7 +14,7 @@ namespace ball_tracker {
 
   // array of balls
   int ball_count = 0;
-  Ball balls[MAX_BAllS];
+  Ball balls[MAX_BALLS];
 
 
   // calculate distance from vision y coordinate
@@ -39,13 +39,13 @@ namespace ball_tracker {
   void update() {
 
     // "remove" all previously stored balls
-    for (int i = 0; i < MAX_BAllS; i++) {
+    for (int i = 0; i < MAX_BALLS; i++) {
       balls[i].identified = false;
     }
 
     // find new balls
-    pros::vision_object_s_t balls_raw[MAX_BAllS];
-    ball_count = vision_sensor.read_by_sig(0, BALL_SIG, MAX_BAllS, balls_raw);
+    pros::vision_object_s_t balls_raw[MAX_BALLS];
+    ball_count = vision_sensor.read_by_sig(0, BALL_SIG, MAX_BALLS, balls_raw);
 
     if (ball_count == PROS_ERR || ball_count < 1) ball_count = 0;
     else {

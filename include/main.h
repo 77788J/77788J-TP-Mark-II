@@ -19,11 +19,12 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "common_values.hpp"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include "common_values.hpp"
 
 void autonomous(void);
 void initialize(void);

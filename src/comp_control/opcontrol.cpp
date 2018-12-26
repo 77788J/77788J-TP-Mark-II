@@ -1,4 +1,54 @@
 #include "../../include/main.h"
+#include "../../include/master.hpp"
+#include "../../include/subsystems/subsystems.hpp"
+
+using namespace pros;
+
+
+// define controller
+Joystick controller;
+
+
+// chassis control
+void driver_chassis() {
+  chassis::move(controller.analog_left_y, controller.analog_right_y);
+}
+
+
+// catapult control
+void driver_catapult() {
+  if (controller.btn_r1_new == 1) catapult::fire();
+}
+
+
+// intake control
+void driver_intake() {
+  if (controller.btn_up_new == 1) intake::toggle(intake::MODE_INTAKE);
+  if (controller.btn_down_new == 1) intake::toggle(intake::MODE_OUTTAKE);
+}
+
+
+// lift control
+void driver_lift() {
+  if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_FLIP_START);
+  if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_MIN);
+
+  if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 250) lift::goto_height(lift::get_height());
+  if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 250) lift::goto_height(lift::get_height());
+}
+
 
 void opcontrol() {
+ while (true) {
+
+   controller.update();
+
+   driver_chassis();
+   driver_catapult();
+   driver_intake();
+   driver_lift();
+
+
+    delay(10);
+  }
 }

@@ -6,14 +6,14 @@
 namespace cap_tracker {
 
   // config
-  #define MAX_CAPS 5 // maximum amount of caps to look for
-  #define SENSOR_ANGLE -60 // angle of vision sensor (degrees)
-  #define SENSOR_HEIGHT 12 // height of vision sensor from ground (inches)
-  #define DISTANCE_SCALAR 1800 // scalar used to calculate distance to cap
+  static const int MAX_CAPS = 5; // maximum amount of caps to look for
+  static const float SENSOR_ANGLE = -60; // angle of vision sensor (degrees)
+  static const float SENSOR_HEIGHT = 12; // height of vision sensor from ground (inches)
+  static const float DISTANCE_SCALAR = 1800; // scalar used to calculate distance to cap
 
   // signatures
-  #define CAP_SIG_RED 1
-  #define CAP_SIG_BLUE 2
+  static const int CAP_SIG_RED = 1;
+  static const int CAP_SIG_BLUE = 2;
 
   // possible cap colors
   enum Color {color_red, color_blue};

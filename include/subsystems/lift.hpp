@@ -6,17 +6,17 @@
 namespace lift {
 
   // physical characteristics
-  #define ARM_LENGTH 40.f // length of lift arm (inches)
-  #define REDUCTION 5.f // gear reduction of lift (output/input)
-  #define FLIP_BUFFER 1.5f // buffer around flip height in which cap is considered flipped
+  static const float ARM_LENGTH = 40.f; // length of lift arm (inches)
+  static const float REDUCTION = 5.f; // gear reduction of lift (output/input)
+  static const float FLIP_BUFFER = 1.5f; // buffer around flip height in which cap is considered flipped
 
   // heights
-  #define HEIGHT_MAX 40.f // maximum lift height (inches)
-  #define HEIGHT_FLIP_START 30.f // lift height where cap starts to flip (inches)
-  #define HEIGHT_LOW_POST 20.f // lift height where prongs are directly below low post cap (inches)
-  #define HEIGHT_FLIP_GROUND 18.f // lift height where cap is flipped on ground
-  #define HEIGHT_MIN 12.f // minimum lift height (before braking) (inches)
-  #define HEIGHT_BRAKE 0.f // lift height to engage brake (inches)
+  static const float HEIGHT_MAX = 40.f; // maximum lift height (inches)
+  static const float HEIGHT_FLIP_START = 30.f; // lift height where cap starts to flip (inches)
+  static const float HEIGHT_LOW_POST = 20.f; // lift height where prongs are directly below low post cap (inches)
+  static const float HEIGHT_FLIP_GROUND = 18.f; // lift height where cap is flipped on ground
+  static const float HEIGHT_MIN = 12.f; // minimum lift height (before braking) (inches)
+  static const float HEIGHT_BRAKE = 0.f; // lift height to engage brake (inches)
 
   // motors
   extern pros::Motor motor_left;

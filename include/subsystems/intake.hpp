@@ -23,7 +23,7 @@ namespace intake {
   void set_mode(Mode new_mode);
 
   // toggle on/off
-  void toggle(int direction);
+  void toggle(Mode new_mode);
 
   // update
   void update(int delta_t);

@@ -11,9 +11,9 @@ namespace position_tracker {
   #define WHEEL_SIZE 4.125f // diameter of tracking wheels (inches)
 
   // conversion factors
-  #define ANGLE_TO_DIST(angle) WHEEL_SIZE * PI * angle/360.f // convert angle (degrees) to dist (inches)
-  #define DIST_TO_ANGLE(dist) dist * 360.f / (WHEEL_SIZE * PI) // convert dist (inches) to angle (degrees)
-  #define ORIENTATION_FROM_SIDE_DIST(dist_l, dist_r) (dist_r - dist_l) / TRACKER_DIST // calculate absolute orientation (radians) from left/right distances (inches)
+  inline float ANGLE_TO_DIST(float angle) {return WHEEL_SIZE * PI * angle/360.f;} // convert angle (degrees) to dist (inches)
+  inline float DIST_TO_ANGLE(float dist) {return dist * 360.f / (WHEEL_SIZE * PI);} // convert dist (inches) to angle (degrees)
+  inline float ORIENTATION_FROM_SIDE_DIST(float dist_l, float dist_r) {return (dist_r - dist_l) / TRACKER_DIST;} // calculate absolute orientation (radians) from left/right distances (inches)
 
   // sensors
   extern pros::ADIEncoder* enc_left; // encoder attached to left tracker wheel
@@ -26,6 +26,7 @@ namespace position_tracker {
   extern float y; // position along y axis (inches)
   extern float y_vel; // velocity along y axis (inches/sec)
   extern long double orientation; // orientation (radians)
+  extern float orientation_deg; // orientation (degrees)
   extern long double angular_vel; // angular velocity (deg/sec)
 
   // initialize

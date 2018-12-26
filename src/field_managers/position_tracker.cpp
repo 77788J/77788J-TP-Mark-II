@@ -21,6 +21,7 @@ namespace position_tracker {
   float y = 0;
   float y_vel = 0;
   long double orientation = 0;
+  float orientation_deg = 0;
   long double angular_vel = 0;
 
 
@@ -48,6 +49,7 @@ namespace position_tracker {
     float dist_side_wheel = ANGLE_TO_DIST(enc_side->get_value()); // distance travelled as measured by side encoder
     long double prev_orientation = orientation;
     orientation = ORIENTATION_FROM_SIDE_DIST(enc_right->get_value(), enc_left->get_value()); // absolute robot orientation (radians)
+    orientation_deg = orientation * (180/PI); // save a copy of the orientation in degrees as well
     long double delta_orientation = orientation - prev_orientation; // change in orientation since last update
 
     // define for later
@@ -95,7 +97,6 @@ namespace position_tracker {
     x_vel = (x_vel * .5f) + (absolute_delta_x * (1000.f/delta_t) * .5f);
     y += absolute_delta_y;
     y_vel = (y_vel * .5f) + (absolute_delta_y * (1000.f/delta_t) * .5f);
-    // (orientation calculated already)
     angular_vel = (angular_vel * .5f) + (delta_orientation * (180.f/PI) * (1000.f/delta_t) * .5f);
   }
 }
