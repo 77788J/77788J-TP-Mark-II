@@ -24,13 +24,14 @@ namespace flag_tracker {
   static const int FLAG_SIG_GREEN = 3;
 
   // possible flag colors
-  enum Color {color_red, color_blue};
+  enum Color {color_red, color_blue, color_neutral};
 
   // stores all data of a flag
   typedef struct Flag {
     bool identified;
     float vision_x;
     float vision_y;
+    float vision_pole_x;
     float width;
     float height;
     Color color;

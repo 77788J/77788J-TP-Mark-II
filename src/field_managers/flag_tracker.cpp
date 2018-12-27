@@ -18,6 +18,7 @@ namespace flag_tracker {
   // color codes
   pros::vision_color_code_t code_red = vision_sensor.create_color_code(FLAG_SIG_RED, FLAG_SIG_GREEN);
   pros::vision_color_code_t code_blue = vision_sensor.create_color_code(FLAG_SIG_GREEN, FLAG_SIG_BLUE);
+  pros::vision_color_code_t code_neutral = vision_sensor.create_color_code(FLAG_SIG_GREEN, FLAG_SIG_BLUE, FLAG_SIG_RED, FLAG_SIG_GREEN);
 
 
   // arrays of flags and flagpoles
@@ -33,7 +34,9 @@ namespace flag_tracker {
 
 
   float get_pole_location(Flag flag) {
-    return (flag.color == color_red) ? flag.vision_x : flag.vision_x + flag.width;
+    if (flag.color == color_red) return flag.vision_x;
+    if (flag.color == color_neutral) return flag.vision_x + flag.width/2; 
+    return flag.vision_x + flag.width;
   }
 
 
@@ -46,6 +49,7 @@ namespace flag_tracker {
     flag.width = width;
     flag.height = height;
     flag.color = color;
+    flag.vision_pole_x = get_pole_location(flag);
     return flag;
   }
 
@@ -64,7 +68,7 @@ namespace flag_tracker {
       int identified_count = flag_btm.identified + flag_mid.identified + flag_top.identified;
       pole.robot_dist = (dist_btm + dist_mid + dist_top) / identified_count;
 
-      pole.robot_x = 1 * get_pole_location(flag_btm) / pole.robot_dist; // UNTESTED CALCULATION
+      pole.robot_x = 1 * flag_btm.vision_pole_x / pole.robot_dist; // UNTESTED CALCULATION
       pole.flag_top = flag_top;
       pole.flag_mid = flag_mid;
       pole.flag_btm = flag_btm;
@@ -85,22 +89,56 @@ namespace flag_tracker {
     // find new flags
     pros::vision_object_s_t flags_red_raw[MAX_FLAGS];
     pros::vision_object_s_t flags_blue_raw[MAX_FLAGS];
-    int flag_count_red = vision_sensor.read_by_code(0, code_red, MAX_FLAGS, flags_red_raw);
-    int flag_count_blue = vision_sensor.read_by_code(0, code_blue, MAX_FLAGS - ((flag_count_red == PROS_ERR) ? 0 : flag_count_red), flags_blue_raw);
+    pros::vision_object_s_t flags_neutral_raw[MAX_FLAGS];
+    int flag_count_neutral = vision_sensor.read_by_code(0, code_neutral, MAX_FLAGS, flags_neutral_raw);
+    if (flag_count_neutral == PROS_ERR) flag_count_neutral = 0;
+    int flag_count_red = vision_sensor.read_by_code(0, code_red, MAX_FLAGS - flag_count_neutral, flags_red_raw);
+    if (flag_count_red == PROS_ERR) flag_count_red = 0;
+    int flag_count_blue = vision_sensor.read_by_code(0, code_blue, MAX_FLAGS  - flag_count_neutral - flag_count_neutral, flags_blue_raw);
+    if (flag_count_blue == PROS_ERR) flag_count_blue = 0;
 
-    if (flag_count_red == PROS_ERR || flag_count_red < 1) flag_count_red = 0;
-    if (flag_count_blue == PROS_ERR || flag_count_blue < 1) flag_count_blue = 0;
-    flag_count = flag_count_red + flag_count_blue;
+    int flag_count_individual = flag_count_red + flag_count_blue;
+    flag_count = flag_count_individual + flag_count_neutral;
 
     if (flag_count != PROS_ERR && flag_count > 0) {
 
       // convert to Flag structs
-      Flag flags_unsorted[flag_count];
+      Flag flags_unsorted_individual[flag_count_individual];
+      Flag flags_unsorted_neutral[flag_count_neutral];
       for (int i = 0; i < flag_count_red; i++) {
-        flags_unsorted[i] = create_flag(flags_red_raw[i].left_coord, flags_red_raw[i].top_coord, flags_red_raw[i].width, flags_red_raw[i].height, color_red);
+        flags_unsorted_individual[i] = create_flag(flags_red_raw[i].left_coord, flags_red_raw[i].top_coord, flags_red_raw[i].width, flags_red_raw[i].height, color_red);
       }
       for (int i = 0; i < flag_count_blue; i++) {
-        flags_unsorted[i] = create_flag(flags_blue_raw[i].left_coord, flags_blue_raw[i].top_coord, flags_blue_raw[i].width, flags_blue_raw[i].height, color_blue);
+        flags_unsorted_individual[i] = create_flag(flags_blue_raw[i].left_coord, flags_blue_raw[i].top_coord, flags_blue_raw[i].width, flags_blue_raw[i].height, color_blue);
+      }
+      for (int i = 0; i < flag_count_neutral; i++) {
+        flags_unsorted_neutral[i] = create_flag(flags_neutral_raw[i].left_coord, flags_neutral_raw[i].top_coord, flags_neutral_raw[i].width, flags_neutral_raw[i].height, color_neutral);
+      }
+
+      // remove duplicates
+      for (int i = 0; i < flag_count_neutral; i++) {
+        for (int j = 0; j < flag_count_red; j++) {
+          if (fabs(flags_unsorted_neutral[i].vision_pole_x - flags_unsorted_individual[j].vision_pole_x) <= SAME_POLE_BUFFER) {
+            flags_unsorted_individual[j].identified = false;
+            flag_count--;
+          }
+        }
+      }
+
+      // combine individual and neutral flags into one array
+      Flag flags_unsorted[flag_count];
+      int sort_index = 0;
+      for (int i = 0; i < flag_count_individual; i++) {
+        if (flags_unsorted_individual[i].identified) {
+          flags_unsorted[sort_index] = flags_unsorted_individual[i];
+          sort_index++;
+        }
+      }
+      for (int i = 0; i < flag_count_neutral; i++) {
+        if (flags_unsorted_neutral[i].identified) {
+          flags_unsorted[sort_index] = flags_unsorted_neutral[i];
+          sort_index++;
+        }
       }
 
       // sort by x coordinate and store in flags array
@@ -141,7 +179,7 @@ namespace flag_tracker {
         flags_cpy[i].identified = false;
 
         // calculate pole location
-        float pole_location = get_pole_location(flags_cpy[i]);
+        float pole_location = flags_cpy[i].vision_pole_x;
 
         // create small array to store flags on pole
         Flag pole[3];
@@ -150,7 +188,7 @@ namespace flag_tracker {
 
         // find other flags on same pole
         for (int j = i; j < flag_count; j++) {
-          if (pole_flags < 3 && fabs(get_pole_location(flags_cpy[j]) - pole_location) <= SAME_POLE_BUFFER) {
+          if (pole_flags < 3 && fabs(flags_cpy[j].vision_pole_x - pole_location) <= SAME_POLE_BUFFER) {
             pole[pole_flags] = flags_cpy[j];
             pole_flags++;
             flags_cpy[j].identified = false;
