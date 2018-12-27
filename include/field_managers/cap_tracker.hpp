@@ -28,7 +28,7 @@ namespace cap_tracker {
     float width;
     float height;
     Color color;
-  } cap;
+  } Cap;
 
   // vision sensor
   extern pros::Vision vision_sensor;

@@ -62,7 +62,7 @@ namespace ball_tracker {
         float min_dist = balls_unsorted[0].robot_dist;
 
         for (int j = 0; j < ball_count; j++) {
-          if (balls_unsorted[j].identified && balls_unsorted[j].robot_dist > min_dist) {
+          if (balls_unsorted[min_index].identified == false || (balls_unsorted[j].identified && balls_unsorted[j].robot_dist < min_dist)) {
             min_index = j;
             min_dist = balls_unsorted[j].robot_dist;
           }

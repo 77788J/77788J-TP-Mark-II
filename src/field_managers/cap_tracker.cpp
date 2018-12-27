@@ -71,7 +71,7 @@ namespace cap_tracker {
         float min_dist = caps_unsorted[0].robot_dist;
 
         for (int j = 0; j < cap_count; j++) {
-          if (caps_unsorted[j].identified && caps_unsorted[j].robot_dist > min_dist) {
+          if (caps_unsorted[min_index].identified == false || (caps_unsorted[j].identified && caps_unsorted[j].robot_dist < min_dist)) {
             min_index = j;
             min_dist = caps_unsorted[j].robot_dist;
           }
