@@ -45,18 +45,10 @@ namespace chassis {
     motor_back_right.move_absolute(right, max_vel);
   }
 
-  void move_position_absolute(float left, float right) {
-    move_position_absolute(left, right, 600);
-  }
-
   void move_position_relative(float left, float right, float max_vel) {
     motor_front_left.move_relative(left, max_vel);
     motor_back_left.move_relative(left, max_vel);
     motor_front_right.move_relative(right, max_vel);
     motor_back_right.move_relative(right, max_vel);
-  }
-  
-  void move_position_relative(float left, float right) {
-    move_position_relative(left, right, 600);
   }
 }

@@ -21,16 +21,10 @@ namespace chassis {
   void move_velocity(float left, float right);
 
   // absolute position control
-  void move_position_absolute(float left, float right, float max_vel);
-
-  // absolute position control
-  void move_position_absolute(float left, float right);
+  void move_position_absolute(float left, float right, float max_vel=600);
 
   // relative position control
-  void move_position_relative(float left, float right, float max_vel);
-
-  // relative position control
-  void move_position_relative(float left, float right);
+  void move_position_relative(float left, float right, float max_vel=600);
 
 }
 
