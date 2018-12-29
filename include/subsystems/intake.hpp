@@ -5,6 +5,9 @@
 
 namespace intake {
 
+  // auto intake distance threshold
+  static const float auto_dist_threshold = 6;
+
   // intake modes
   enum Mode {
     MODE_OFF = 0,

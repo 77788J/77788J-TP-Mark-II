@@ -1,4 +1,5 @@
 #include "../../include/subsystems/intake.hpp"
+#include "../../include/field_managers/ball_tracker.hpp"
 
 namespace intake {
 
@@ -14,17 +15,19 @@ namespace intake {
 
   // switch mode
   void set_mode(Mode new_mode) {
+    if (mode != new_mode) {
 
-    mode = new_mode;
+      mode = new_mode;
 
-    switch (mode) {
-      case (MODE_OFF): state = 0; break;
-      case (MODE_INTAKE): state = 1; break;
-      case (MODE_OUTTAKE): state = -1; break;
-      case (MODE_AUTO): break;
+      switch (mode) {
+        case (MODE_OFF): state = 0; break;
+        case (MODE_INTAKE): state = 1; break;
+        case (MODE_OUTTAKE): state = -1; break;
+        case (MODE_AUTO): break;
+      }
+
+      motor.move_voltage(state * 12000);
     }
-
-    motor.move_voltage(state * 12000);
   }
 
 
@@ -36,6 +39,16 @@ namespace intake {
 
 
   // update
-  void update(int delta_t) {}
+  void update(int delta_t) {
+    if (mode == MODE_AUTO) {
 
+      if (
+        ball_tracker::ball_count > 0 &&
+        fabs(VISION_IMAGE_WIDTH/2 - ball_tracker::balls[0].vision_x) < VISION_IMAGE_WIDTH * .75 &&
+        ball_tracker::balls[0].robot_dist < auto_dist_threshold
+      ) motor.move_voltage(12000);
+      else motor.move_voltage(-12000);
+
+    }
+  }
 }
