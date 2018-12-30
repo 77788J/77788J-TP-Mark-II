@@ -15,8 +15,12 @@ namespace lift {
   static const float HEIGHT_FLIP_START = 30.f; // lift height where cap starts to flip (inches)
   static const float HEIGHT_LOW_POST = 20.f; // lift height where prongs are directly below low post cap (inches)
   static const float HEIGHT_FLIP_GROUND = 18.f; // lift height where cap is flipped on ground
-  static const float HEIGHT_MIN = 12.f; // minimum lift height (before braking) (inches)
+  static const float HEIGHT_LIFT_CAP = 16.f; // minimum lift height where held cap is off ground (inches)
+  static const float HEIGHT_MIN = 12.f; // minimum lift height before braking (inches)
   static const float HEIGHT_BRAKE = 0.f; // lift height to engage brake (inches)
+
+  // status
+  extern bool is_flipping;
 
   // motors
   extern pros::Motor motor_left;
@@ -31,7 +35,7 @@ namespace lift {
 
   // goto positions
   void goto_angle(float degrees); // goto angle (degrees)
-  void goto_height(float height); // goto height (inches)
+  void goto_height(float height, bool flipping=false); // goto height (inches)
 
   // flip cap
   void flip(float start_height, float end_height); // flip cap, finishing at end_height

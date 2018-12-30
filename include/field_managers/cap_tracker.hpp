@@ -14,6 +14,10 @@ namespace cap_tracker {
   // signatures
   static const int CAP_SIG_RED = 1;
   static const int CAP_SIG_BLUE = 2;
+  
+  // distances
+  static const float flip_dist_cap = 12;
+  static const float grab_dist_cap = 6;
 
   // possible cap colors
   enum Color {color_red, color_blue};

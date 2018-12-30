@@ -23,6 +23,11 @@ namespace flag_tracker {
   static const int FLAG_SIG_BLUE = 2;
   static const int FLAG_SIG_GREEN = 3;
 
+  // fire distances
+  static const float fire_dist_double = 36;
+  static const float fire_dist_single_far = 144;
+  static const float fire_dist_single_near = 18;
+
   // possible flag colors
   enum Color {color_red, color_blue, color_neutral};
 

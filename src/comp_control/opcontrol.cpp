@@ -1,5 +1,6 @@
 #include "../../include/main.h"
 #include "../../include/master.hpp"
+#include "../../include/field_managers/cap_tracker.hpp"
 #include "../../include/subsystems/subsystems.hpp"
 
 using namespace pros;
@@ -30,9 +31,19 @@ void driver_intake() {
 
 // lift control
 void driver_lift() {
+
+  // automatic control
+  if (cap_tracker::cap_count > 0) {
+    cap_tracker::Cap cap = cap_tracker::caps[0];
+    if (fabs(cap.robot_x) < 6) {
+      if (cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
+      else if (controller.btn_l1 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
+    }
+  }
+
+  // manual control
   if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_FLIP_START);
   if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_MIN);
-
   if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 250) lift::goto_height(lift::get_height());
   if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 250) lift::goto_height(lift::get_height());
 }

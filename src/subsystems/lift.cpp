@@ -3,6 +3,10 @@
 namespace lift {
 
 
+  // status
+  bool is_flipping = false;
+
+
   // motors
   pros::Motor motor_left(7, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
   pros::Motor motor_right(8, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
@@ -30,13 +34,13 @@ namespace lift {
     motor_right.move_absolute(degrees * REDUCTION, 200.f);
   }
 
-  void goto_height(float height) {
+  void goto_height(float height, bool flipping) {
+    if (!flipping) is_flipping = false;
     goto_angle(calc_angle(height));
   }
   
 
   // flip cap
-  bool is_flipping = false;
   float flip_height = HEIGHT_FLIP_GROUND;
   float height_after_flip = HEIGHT_FLIP_START;
   void flip(float start_height, float end_height) {
@@ -44,7 +48,7 @@ namespace lift {
     is_flipping = true;
     flip_height = start_height;
     height_after_flip = end_height;
-    goto_height(HEIGHT_MAX);
+    goto_height(HEIGHT_MAX, true);
   }
 
   void flip_air() {
