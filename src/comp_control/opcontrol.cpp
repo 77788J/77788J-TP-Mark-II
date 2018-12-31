@@ -6,6 +6,11 @@
 using namespace pros;
 
 
+bool intake_auto = true;
+bool flip_auto = true;
+bool lift_auto = true;
+
+
 // define controller
 Joystick controller;
 
@@ -24,8 +29,9 @@ void driver_catapult() {
 
 // intake control
 void driver_intake() {
-  if (controller.btn_up_new == 1) intake::toggle(intake::MODE_INTAKE);
-  if (controller.btn_down_new == 1) intake::toggle(intake::MODE_OUTTAKE);
+  if (intake_auto) intake::set_mode(intake::MODE_AUTO);
+  else if (controller.btn_up_new == 1) intake::toggle(intake::MODE_INTAKE);
+  else if (controller.btn_down_new == 1) intake::toggle(intake::MODE_OUTTAKE);
 }
 
 
@@ -36,8 +42,8 @@ void driver_lift() {
   if (cap_tracker::cap_count > 0) {
     cap_tracker::Cap cap = cap_tracker::caps[0];
     if (fabs(cap.robot_x) < 6) {
-      if (cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
-      else if (controller.btn_l1 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
+      if (flip_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
+      else if (lift_auto && controller.btn_l1 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
     }
   }
 
