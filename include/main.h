@@ -26,6 +26,10 @@ extern "C" {
 
 #include "common_values.hpp"
 
+extern bool intake_auto;
+extern bool flip_auto;
+extern bool lift_auto;
+
 void autonomous(void);
 void initialize(void);
 void disabled(void);

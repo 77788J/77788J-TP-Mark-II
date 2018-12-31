@@ -1,5 +1,4 @@
 #include "../../include/main.h"
-#include "../../include/master.hpp"
 #include "../../include/controller.hpp"
 #include "../../include/field_managers/cap_tracker.hpp"
 #include "../../include/field_managers/flag_tracker.hpp"
