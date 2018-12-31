@@ -1,6 +1,8 @@
 #include "../../include/main.h"
 #include "../../include/master.hpp"
+#include "../../include/controller.hpp"
 #include "../../include/field_managers/cap_tracker.hpp"
+#include "../../include/field_managers/flag_tracker.hpp"
 #include "../../include/subsystems/subsystems.hpp"
 
 using namespace pros;
@@ -11,10 +13,6 @@ bool flip_auto = true;
 bool lift_auto = true;
 
 
-// define controller
-Joystick controller;
-
-
 // chassis control
 void driver_chassis() {
   chassis::move(controller.analog_left_y, controller.analog_right_y);
@@ -23,7 +21,16 @@ void driver_chassis() {
 
 // catapult control
 void driver_catapult() {
+
+  // fire on button press
   if (controller.btn_r1_new == 1) catapult::fire();
+
+  // rumble on button press
+  if (controller.btn_x_new == 1) {
+    if (flag_tracker::in_range_double_shot) controller.controller.rumble(".-");
+    else if (flag_tracker::in_range_far_shot_mid || flag_tracker::in_range_near_shot_mid) controller.controller.rumble(".");
+    else if (flag_tracker::in_range_far_shot_top || flag_tracker::in_range_near_shot_top) controller.controller.rumble("-");
+  }
 }
 
 

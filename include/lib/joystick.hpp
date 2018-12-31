@@ -67,12 +67,8 @@ public:
   float deadband_left_x;
   float deadband_left_y;
 
-  // default initializer
-  // MAKE SURE TO FULLY INITIALIZE WITH <Joystick>.init()
+  // initializer
   Joystick();
-
-  // actually initializes the joystick
-  void init(int joystick_);
 
   // updates the button readings
   void update();
