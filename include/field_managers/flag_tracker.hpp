@@ -25,8 +25,17 @@ namespace flag_tracker {
 
   // fire distances
   static const float fire_dist_double = 36;
-  static const float fire_dist_single_far = 144;
-  static const float fire_dist_single_near = 18;
+  static const float fire_dist_single_far_mid = 144;
+  static const float fire_dist_single_near_mid = 18;
+  static const float fire_dist_single_far_top = 96;
+  static const float fire_dist_single_near_top = 66;
+
+  // shoot recommendations
+  extern bool in_range_double_shot;
+  extern bool in_range_near_shot_mid;
+  extern bool in_range_far_shot_mid;
+  extern bool in_range_near_shot_top;
+  extern bool in_range_far_shot_top;
 
   // possible flag colors
   enum Color {color_red, color_blue, color_neutral};
@@ -74,6 +83,9 @@ namespace flag_tracker {
 
   // update flagpole list
   void update_flagpoles();
+
+  // update shoot recommendations
+  void update_recommendations();
 
 }
 

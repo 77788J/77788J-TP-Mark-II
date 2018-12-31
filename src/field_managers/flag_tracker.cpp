@@ -27,6 +27,14 @@ namespace flag_tracker {
   Flagpole flagpoles[MAX_FLAGPOLES];
 
 
+  // shoot recommendations
+  bool in_range_double_shot = false;
+  bool in_range_near_shot_mid = false;
+  bool in_range_far_shot_mid = false;
+  bool in_range_near_shot_top = false;
+  bool in_range_far_shot_top = false;
+
+
   // calculate distance from vision y coordinate
   float calc_flag_dist(float height, float center_y) {
       return sin(SENSOR_ANGLE_RAD) * (height - SENSOR_HEIGHT) * DISTANCE_SCALAR / (VISION_IMAGE_WIDTH/2 - center_y); // UNTESTED CALCULATION
@@ -221,6 +229,29 @@ namespace flag_tracker {
         );
 
         pole_index++;
+      }
+    }
+  }
+  
+
+  // update shoot recommendations
+  void update_recommendations() {
+
+    // default all to false
+    in_range_double_shot = false;
+    in_range_near_shot_mid = false;
+    in_range_far_shot_mid = false;
+    in_range_near_shot_top = false;
+    in_range_far_shot_top = false;
+
+    // loop through all flagpoles and set recommendations to true if in range
+    for (int i = 0; i < MAX_FLAGPOLES; i++) {
+      if (flagpoles[i].identified && fabs(flagpoles[i].robot_x) < 10) {
+        if (fabs(flagpoles[i].robot_dist - fire_dist_double) < 5) in_range_double_shot = true;
+        if (fabs(flagpoles[i].robot_dist - fire_dist_single_near_mid) < 10) in_range_near_shot_mid = true;
+        if (fabs(flagpoles[i].robot_dist - fire_dist_single_far_mid) < 10) in_range_far_shot_mid = true;
+        if (fabs(flagpoles[i].robot_dist - fire_dist_single_near_top) < 5) in_range_near_shot_top = true;
+        if (fabs(flagpoles[i].robot_dist - fire_dist_single_far_top) < 5) in_range_far_shot_top = true;
       }
     }
   }
