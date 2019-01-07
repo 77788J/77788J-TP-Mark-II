@@ -6,18 +6,20 @@
 namespace lift {
 
   // physical characteristics
-  static const float ARM_LENGTH = 40.f; // length of lift arm (inches)
-  static const float REDUCTION = 5.f; // gear reduction of lift (output/input)
-  static const float FLIP_BUFFER = 1.5f; // buffer around flip height in which cap is considered flipped
+  static const float ARM_LENGTH = 16.5f; // length of lift arm (inches)
+  static const float REDUCTION = 7.f; // gear reduction of lift (output/input)
+  static const float FLIP_BUFFER = .5f; // buffer around flip height in which cap is considered flipped
+  static const float HEIGHT_FULCRUM = 15.625; // height of lift fulcrum off ground
+  static const float ANGLE_START = -45.f; // angle that lift starts at
 
   // heights
-  static const float HEIGHT_MAX = 40.f; // maximum lift height (inches)
-  static const float HEIGHT_FLIP_START = 30.f; // lift height where cap starts to flip (inches)
-  static const float HEIGHT_LOW_POST = 20.f; // lift height where prongs are directly below low post cap (inches)
-  static const float HEIGHT_FLIP_GROUND = 18.f; // lift height where cap is flipped on ground
-  static const float HEIGHT_LIFT_CAP = 16.f; // minimum lift height where held cap is off ground (inches)
-  static const float HEIGHT_MIN = 12.f; // minimum lift height before braking (inches)
-  static const float HEIGHT_BRAKE = 0.f; // lift height to engage brake (inches)
+  static const float HEIGHT_MAX = 30.f; // maximum lift height (inches)
+  static const float HEIGHT_FLIP_START = 26.f; // lift height where cap starts to flip (inches)
+  static const float HEIGHT_LOW_POST = 22.f; // lift height where prongs are directly below low post cap (inches)
+  static const float HEIGHT_FLIP_GROUND = 8.5f; // lift height where cap is flipped on ground
+  static const float HEIGHT_LIFT_CAP = 7.f; // minimum lift height where held cap is off ground (inches)
+  static const float HEIGHT_MIN = 5.5f; // minimum lift height before braking (inches)
+  static const float HEIGHT_BRAKE = 3.3; // lift height to engage brake (inches)
 
   // status
   extern bool is_flipping;
@@ -29,6 +31,9 @@ namespace lift {
   // convert between angle and height
   float calc_height(float angle); // calc lift height (inches) from angle (degrees)
   float calc_angle(float height); // calc lift angle (degrees) from height (inches)
+
+  // calculate absolute angle of lift (degrees)
+  float get_angle();
 
   // calculate height of lift (inches)
   float get_height();

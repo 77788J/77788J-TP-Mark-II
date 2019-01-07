@@ -1,5 +1,7 @@
 #include "../../include/field_managers/cap_tracker.hpp"
 
+float DISTANCE_SCALAR = .060130179;
+
 namespace cap_tracker {
 
 
@@ -30,7 +32,7 @@ namespace cap_tracker {
     b.vision_x = vision_x;
     b.vision_y = vision_y;
     b.robot_dist = calc_cap_dist(vision_y);
-    b.robot_x = (VISION_IMAGE_WIDTH/2 - vision_x) / (VISION_IMAGE_HEIGHT - vision_y) * b.robot_dist; // UNTESTED CALCULATION
+    b.robot_x = (VISION_IMAGE_WIDTH/2 - vision_x + width/2) / (VISION_IMAGE_HEIGHT - vision_y - height/2) * b.robot_dist; // UNTESTED CALCULATION
     b.color = color;
     return b;
   }
@@ -59,10 +61,10 @@ namespace cap_tracker {
       // convert to Cap structs
       Cap caps_unsorted[cap_count];
       for (int i = 0; i < cap_count_red; i++) {
-        caps_unsorted[i] = create_cap(caps_red_raw[i].left_coord, caps_red_raw[i].top_coord, caps_red_raw[i].width, caps_red_raw[i].height, color_red);
+        caps_unsorted[i] = create_cap(caps_red_raw[i].left_coord, caps_red_raw[i].top_coord + caps_red_raw[i].height, caps_red_raw[i].width, caps_red_raw[i].height, color_red);
       }
       for (int i = 0; i < cap_count_blue; i++) {
-        caps_unsorted[i] = create_cap(caps_blue_raw[i].left_coord, caps_blue_raw[i].top_coord, caps_blue_raw[i].width, caps_blue_raw[i].height, color_blue);
+        caps_unsorted[i] = create_cap(caps_blue_raw[i].left_coord, caps_blue_raw[i].top_coord + caps_blue_raw[i].height, caps_blue_raw[i].width, caps_blue_raw[i].height, color_blue);
       }
 
       // sort by distance and store in caps array

@@ -43,18 +43,18 @@ void Joystick :: update() {
   btn_r2_new = (raw_r2 && !btn_r2) - (!raw_r2 && btn_r2);
 
   // update button hold times
-  btn_up_hold_time = (btn_up_new != 1) ? btn_up_hold_time + pros::millis() - updated : 0;
-  btn_down_hold_time = (btn_down_new != 1) ? btn_down_hold_time + pros::millis() - updated : 0;
-  btn_left_hold_time = (btn_left_new != 1) ? btn_left_hold_time + pros::millis() - updated : 0;
-  btn_right_hold_time = (btn_right_new != 1) ? btn_right_hold_time + pros::millis() - updated : 0;
-  btn_a_hold_time = (btn_a_new != 1) ? btn_a_hold_time + pros::millis() - updated : 0;
-  btn_b_hold_time = (btn_b_new != 1) ? btn_b_hold_time + pros::millis() - updated : 0;
-  btn_x_hold_time = (btn_x_new != 1) ? btn_x_hold_time + pros::millis() - updated : 0;
-  btn_y_hold_time = (btn_y_new != 1) ? btn_y_hold_time + pros::millis() - updated : 0;
-  btn_l1_hold_time = (btn_l1_new != 1) ? btn_l1_hold_time + pros::millis() - updated : 0;
-  btn_l2_hold_time = (btn_l2_new != 1) ? btn_l2_hold_time + pros::millis() - updated : 0;
-  btn_r1_hold_time = (btn_r1_new != 1) ? btn_r1_hold_time + pros::millis() - updated : 0;
-  btn_r2_hold_time = (btn_r2_new != 1) ? btn_r2_hold_time + pros::millis() - updated : 0;
+  if (raw_up) btn_up_hold_time = (btn_up_new != 1) ? btn_up_hold_time + pros::millis() - updated : 0;
+  if (raw_down) btn_down_hold_time = (btn_down_new != 1) ? btn_down_hold_time + pros::millis() - updated : 0;
+  if (raw_left) btn_left_hold_time = (btn_left_new != 1) ? btn_left_hold_time + pros::millis() - updated : 0;
+  if (raw_right) btn_right_hold_time = (btn_right_new != 1) ? btn_right_hold_time + pros::millis() - updated : 0;
+  if (raw_a) btn_a_hold_time = (btn_a_new != 1) ? btn_a_hold_time + pros::millis() - updated : 0;
+  if (raw_b) btn_b_hold_time = (btn_b_new != 1) ? btn_b_hold_time + pros::millis() - updated : 0;
+  if (raw_x) btn_x_hold_time = (btn_x_new != 1) ? btn_x_hold_time + pros::millis() - updated : 0;
+  if (raw_y) btn_y_hold_time = (btn_y_new != 1) ? btn_y_hold_time + pros::millis() - updated : 0;
+  if (raw_l1) btn_l1_hold_time = (btn_l1_new != 1) ? btn_l1_hold_time + pros::millis() - updated : 0;
+  if (raw_l2) btn_l2_hold_time = (btn_l2_new != 1) ? btn_l2_hold_time + pros::millis() - updated : 0;
+  if (raw_r1) btn_r1_hold_time = (btn_r1_new != 1) ? btn_r1_hold_time + pros::millis() - updated : 0;
+  if (raw_r2) btn_r2_hold_time = (btn_r2_new != 1) ? btn_r2_hold_time + pros::millis() - updated : 0;
 
   // update public raw button presses
   btn_up = raw_up;

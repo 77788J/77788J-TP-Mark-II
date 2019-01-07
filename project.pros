@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "77788J-TP-Mark-II",
+        "project_name": "Competition Code",
         "target": "v5",
         "templates": {
             "kernel": {
