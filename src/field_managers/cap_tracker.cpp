@@ -1,6 +1,6 @@
 #include "../../include/field_managers/cap_tracker.hpp"
 
-float DISTANCE_SCALAR = .060130179;
+float DISTANCE_SCALAR = .1;
 
 namespace cap_tracker {
 
@@ -21,7 +21,7 @@ namespace cap_tracker {
 
   // calculate distance from vision y coordinate
   float calc_cap_dist(float center_y) {
-    return ZERO_DIST + DISTANCE_SCALAR * (VISION_IMAGE_HEIGHT/2 - center_y) / sin(SENSOR_ANGLE_RAD); // UNTESTED CALCULATION
+    return -(ZERO_DIST + DISTANCE_SCALAR * (VISION_IMAGE_HEIGHT/2 - center_y) / sin(SENSOR_ANGLE_RAD)); // UNTESTED CALCULATION
   }
 
 

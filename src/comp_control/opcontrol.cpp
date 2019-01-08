@@ -51,17 +51,18 @@ void driver_lift() {
   if ((flip_auto || lift_auto) && (cap_tracker::cap_count > 0)) {
     cap_tracker::Cap cap = cap_tracker::caps[0];
     if (fabs(cap.robot_x) < 6) {
-      if (flip_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
-      else if (lift_auto && controller.btn_l1 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
+      if (lift_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
+      else if (flip_auto && controller.btn_l2 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
     }
   }
 
   // manual control
   if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_FLIP_START);
   if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_MIN);
-  if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 100) lift::goto_height(lift::get_height());
-  if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 100) lift::goto_height(lift::get_height());
+  if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 75) lift::goto_height(lift::get_height());
+  if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 75) lift::goto_height(lift::get_height());
   if (controller.btn_up_new == 1) lift::flip_air();
+  if (controller.btn_right_new == 1) lift::flip_ground();
   if (controller.btn_down_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
   if (controller.btn_down_new == -1) lift::goto_height(lift::HEIGHT_MIN);
 
@@ -91,8 +92,7 @@ catapult::set_resting_position(catapult::resting_position);
    driver_intake();
    driver_lift();
 
-  printf("%d millis\n", controller.btn_l1_hold_time);
-  printf("%f deg\t%f\"\n", lift::get_angle(), lift::get_height());
+  if (cap_tracker::cap_count >= 1) printf("%f\"\n", cap_tracker::caps[0].robot_dist);
 
     delay(10);
   }
