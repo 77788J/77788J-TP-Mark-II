@@ -37,8 +37,8 @@ void driver_catapult() {
 // intake control
 void driver_intake() {
   if (intake_auto) intake::set_mode(intake::MODE_AUTO);
-  else if (controller.btn_up_new == 1) intake::toggle(intake::MODE_INTAKE);
-  else if (controller.btn_down_new == 1) intake::toggle(intake::MODE_OUTTAKE);
+  else if (controller.btn_r2_new == 1) intake::toggle(intake::MODE_INTAKE);
+  else if (controller.btn_a_new == 1) intake::toggle(intake::MODE_OUTTAKE);
 
   intake::update(10);
 }
