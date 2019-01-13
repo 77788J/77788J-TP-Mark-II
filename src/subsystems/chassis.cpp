@@ -37,18 +37,79 @@ namespace chassis {
   }
 
 
-  // position control
-  void move_position_absolute(float left, float right, float max_vel) {
-    motor_front_left.move_absolute(left, max_vel);
-    motor_back_left.move_absolute(left, max_vel);
-    motor_front_right.move_absolute(right, max_vel);
-    motor_back_right.move_absolute(right, max_vel);
+  // absolute position control
+  void move_position_absolute(float left, float right, float max_vel, bool wait, bool stop) {
+
+    // stop/continue movement
+    if (stop) {
+      motor_front_left.move_absolute(left, max_vel);
+      motor_back_left.move_absolute(left, max_vel);
+      motor_front_right.move_absolute(right, max_vel);
+      motor_back_right.move_absolute(right, max_vel);
+    }
+    else move_velocity(max_vel, max_vel);
+
+    // wait for finish
+    if (wait) {
+      bool compare_left = (left > get_position(SIDE_LEFT));
+      bool compare_right = (right > get_position(SIDE_RIGHT));
+        while ((left > get_position(SIDE_LEFT)) == compare_left || (right > get_position(SIDE_RIGHT)) == compare_right) pros::delay(10);
+    }
   }
 
-  void move_position_relative(float left, float right, float max_vel) {
-    motor_front_left.move_relative(left, max_vel);
-    motor_back_left.move_relative(left, max_vel);
-    motor_front_right.move_relative(right, max_vel);
-    motor_back_right.move_relative(right, max_vel);
+
+  // relative position control
+  void move_position_relative(float left, float right, float max_vel, bool wait, bool stop) {
+    move_position_absolute(get_position(SIDE_LEFT), get_position(SIDE_RIGHT), max_vel, wait, stop);
+  }
+
+
+  // arc position control
+  void move_arc(float radius, float angle, float max_vel, bool wait, bool stop) {
+    long double angle_rad = angle * PI / 180;
+
+    // calculate left/right distances
+    float left_dist;
+    float right_dist;
+    if (radius > 0) {
+      right_dist = angle_rad * (radius + WHEEL_DIST * .5f);
+      left_dist = angle_rad * (radius - WHEEL_DIST * .5f);
+    }
+    else {
+      left_dist = angle_rad * (radius + WHEEL_DIST * .5f);
+      right_dist = angle_rad * (radius - WHEEL_DIST * .5f);
+    }
+
+    // calculate left/right final positions
+    float left_final = get_position(SIDE_LEFT) + left_dist;
+    float right_final = get_position(SIDE_RIGHT) + right_dist;
+
+    // calculate left/right velocities
+    float left_vel;
+    float right_vel;
+    if (radius > 0) {
+      right_vel = max_vel;
+      left_vel = max_vel * (left_dist / right_dist);
+    }
+    else {
+      left_vel = max_vel;
+      right_vel = max_vel * (right_dist / left_dist);
+    }
+
+    // stop/continue movement
+    if (stop) {
+      motor_front_left.move_absolute(left_final, left_vel);
+      motor_back_left.move_absolute(left_final, left_vel);
+      motor_front_right.move_absolute(right_final, right_vel);
+      motor_back_right.move_absolute(right_final, right_vel);
+    }
+    else move_velocity(left_vel, right_vel);
+
+    // wait for finish
+    if (wait) {
+      bool compare_left = (left_final > get_position(SIDE_LEFT));
+      bool compare_right = (right_final > get_position(SIDE_RIGHT));
+        while ((left_final > get_position(SIDE_LEFT)) == compare_left || (right_final > get_position(SIDE_RIGHT)) == compare_right) pros::delay(10);
+    }
   }
 }
