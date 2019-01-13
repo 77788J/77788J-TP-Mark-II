@@ -60,7 +60,7 @@ namespace chassis {
 
   // relative position control
   void move_position_relative(float left, float right, float max_vel, bool wait, bool stop) {
-    move_position_absolute(get_position(SIDE_LEFT), get_position(SIDE_RIGHT), max_vel, wait, stop);
+    move_position_absolute(get_position(SIDE_LEFT) + left, get_position(SIDE_RIGHT) + right, max_vel, wait, stop);
   }
 
 
