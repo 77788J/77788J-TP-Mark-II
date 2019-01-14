@@ -6,8 +6,9 @@
 namespace chassis {
 
   // physical characteristics
-  static const float WHEEL_DIST = 15.f;
-  static const float WHEEL_DIAM = 4.125f;
+  static const float WHEEL_DIST = 15.f; // distance between wheels (inches)
+  static const float WHEEL_DIAM = 4.125f; // diameter of wheels (inches)
+  static const float EXT_REDUCT = 7.f/3.f; // external gear reduction (wheel/motor)
 
   // sides
   enum Side {
@@ -40,12 +41,12 @@ namespace chassis {
   
   // convert angle (degrees) to distance (inches)
   inline float angle_to_dist(float angle) {
-    return angle * PI/180 * WHEEL_DIAM * PI;
+    return angle * PI/180 * WHEEL_DIAM * PI / EXT_REDUCT;
   }
   
   // convert distance (inches) to angle (degrees)
   inline float dist_to_angle(float dist) {
-    return dist / (PI/180 * WHEEL_DIAM * PI);
+    return dist * EXT_REDUCT / (* PI/180 * WHEEL_DIAM * PI);
   }
 
   // PWM control
@@ -57,11 +58,14 @@ namespace chassis {
   // velocity control
   void move_velocity(float left, float right);
 
-  // absolute position control
+  // absolute position control (degrees)
   void move_position_absolute(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
 
-  // relative position control
+  // relative position control (degrees)
   void move_position_relative(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
+  
+  // move distance (relative) (inches)
+  void move_dist(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
 
   // arc position control
   void move_arc(float radius, float angle, float max_vel=600, bool wait=true, bool stop=true);
