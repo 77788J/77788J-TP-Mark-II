@@ -69,6 +69,9 @@ namespace chassis {
 
   // arc position control
   void move_arc(float radius, float angle, float max_vel=600, bool wait=true, bool stop=true);
+  
+  // wait for a movement to be finished
+  void wait_for_completion(float buffer=3);
 
 }
 
