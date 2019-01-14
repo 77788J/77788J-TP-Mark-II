@@ -44,13 +44,17 @@ namespace chassis {
 
   // absolute position control (degrees)
   void move_position_absolute(float left, float right, float max_vel, bool wait, bool stop) {
+    
+    // set target variables
+    target_left = left;
+    target_right = right;
 
     // stop/continue movement
     if (stop) {
-      motor_front_left.move_absolute(left, max_vel);
-      motor_back_left.move_absolute(left, max_vel);
-      motor_front_right.move_absolute(right, max_vel);
-      motor_back_right.move_absolute(right, max_vel);
+      motor_front_left.move_absolute(target_left, max_vel);
+      motor_back_left.move_absolute(target_left, max_vel);
+      motor_front_right.move_absolute(target_right, max_vel);
+      motor_back_right.move_absolute(target_right, max_vel);
     }
     else move_velocity(max_vel, max_vel);
 
@@ -89,8 +93,8 @@ namespace chassis {
     right_dist = dist_to_angle(right_dist);
 
     // calculate left/right final positions
-    float left_final = get_position(SIDE_LEFT) + left_dist;
-    float right_final = get_position(SIDE_RIGHT) + right_dist;
+    target_left = get_position(SIDE_LEFT) + left_dist;
+    target_right = get_position(SIDE_RIGHT) + right_dist;
 
     // calculate left/right velocities
     float left_vel;
@@ -106,10 +110,10 @@ namespace chassis {
 
     // stop/continue movement
     if (stop) {
-      motor_front_left.move_absolute(left_final, left_vel);
-      motor_back_left.move_absolute(left_final, left_vel);
-      motor_front_right.move_absolute(right_final, right_vel);
-      motor_back_right.move_absolute(right_final, right_vel);
+      motor_front_left.move_absolute(target_left, left_vel);
+      motor_back_left.move_absolute(target_left, left_vel);
+      motor_front_right.move_absolute(target_right, right_vel);
+      motor_back_right.move_absolute(target_right, right_vel);
     }
     else move_velocity(left_vel, right_vel);
 
