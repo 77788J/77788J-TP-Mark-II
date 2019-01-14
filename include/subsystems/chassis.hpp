@@ -7,6 +7,7 @@ namespace chassis {
 
   // physical characteristics
   static const float WHEEL_DIST = 15.f;
+  static const float WHEEL_DIAM = 4.125f;
 
   // sides
   enum Side {
@@ -35,6 +36,16 @@ namespace chassis {
     if (side == SIDE_RIGHT) return (motor_front_right.get_actual_velocity() + motor_back_right.get_actual_velocity()) * .5f;
     if (side == SIDE_BOTH) return (get_velocity(SIDE_LEFT) + get_velocity(SIDE_RIGHT)) * .5f;
     return 0;
+  }
+  
+  // convert angle (degrees) to distance (inches)
+  inline float angle_to_dist(float angle) {
+    return angle * PI/180 * WHEEL_DIAM * PI;
+  }
+  
+  // convert distance (inches) to angle (degrees)
+  inline float dist_to_angle(float dist) {
+    return dist / (PI/180 * WHEEL_DIAM * PI);
   }
 
   // PWM control
