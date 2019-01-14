@@ -1,6 +1,11 @@
 #include "../../include/subsystems/chassis.hpp"
 
 namespace chassis {
+  
+  
+  // target positions
+  float target_left = 0;
+  float target_right = 0;
 
 
   // motors
@@ -49,12 +54,8 @@ namespace chassis {
     }
     else move_velocity(max_vel, max_vel);
 
-    // wait for finish
-    if (wait) {
-      bool compare_left = (left > get_position(SIDE_LEFT));
-      bool compare_right = (right > get_position(SIDE_RIGHT));
-        while ((left > get_position(SIDE_LEFT)) == compare_left || (right > get_position(SIDE_RIGHT)) == compare_right) pros::delay(10);
-    }
+    // wait for completion
+    if (wait) wait_for_completion();
   }
 
 
@@ -112,11 +113,22 @@ namespace chassis {
     }
     else move_velocity(left_vel, right_vel);
 
-    // wait for finish
-    if (wait) {
-      bool compare_left = (left_final > get_position(SIDE_LEFT));
-      bool compare_right = (right_final > get_position(SIDE_RIGHT));
-        while ((left_final > get_position(SIDE_LEFT)) == compare_left || (right_final > get_position(SIDE_RIGHT)) == compare_right) pros::delay(10);
-    }
+    // wait for completion
+    if (wait) wait_for_completion();
+  }
+    
+    
+  // wait for a movement to be finished
+  void wait_for_completion(float buffer) {
+    bool compare_left = (target_left > get_position(SIDE_LEFT));
+    bool compare_right = (target_right > get_position(SIDE_RIGHT));
+    
+    while (((target_left > get_position(SIDE_LEFT)) == compare_left ||
+            (target_right > get_position(SIDE_RIGHT)) == compare_right) &&
+           
+           (fabs(target_left - get_position(SIDE_LEFT)) > buffer ||
+            fabs(target_right - get_position(SIDE_RIGHT)) > buffer))
+      
+      pros::delay(10);
   }
 }
