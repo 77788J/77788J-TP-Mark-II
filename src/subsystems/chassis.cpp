@@ -37,7 +37,7 @@ namespace chassis {
   }
 
 
-  // absolute position control
+  // absolute position control (degrees)
   void move_position_absolute(float left, float right, float max_vel, bool wait, bool stop) {
 
     // stop/continue movement
@@ -58,10 +58,15 @@ namespace chassis {
   }
 
 
-  // relative position control
+  // relative position control (degrees)
   void move_position_relative(float left, float right, float max_vel, bool wait, bool stop) {
     move_position_absolute(get_position(SIDE_LEFT) + left, get_position(SIDE_RIGHT) + right, max_vel, wait, stop);
   }
+  
+  
+  // move distance (relative) (inches)
+  void move_dist(float left, float right, float max_vel, bool wait, bool stop) {
+    move_position_relative(dist_to_angle(left), dist_to_angle(right), max_vel, wait, stop);
 
 
   // arc position control
@@ -79,6 +84,8 @@ namespace chassis {
       left_dist = angle_rad * (radius + WHEEL_DIST * .5f);
       right_dist = angle_rad * (radius - WHEEL_DIST * .5f);
     }
+    left_dist = dist_to_angle(left_dist);
+    right_dist = dist_to_angle(right_dist);
 
     // calculate left/right final positions
     float left_final = get_position(SIDE_LEFT) + left_dist;
