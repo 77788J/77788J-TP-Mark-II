@@ -72,6 +72,7 @@ namespace chassis {
   // move distance (relative) (inches)
   void move_dist(float left, float right, float max_vel, bool wait, bool stop) {
     move_position_relative(dist_to_angle(left), dist_to_angle(right), max_vel, wait, stop);
+  }
 
 
   // arc position control
@@ -127,11 +128,11 @@ namespace chassis {
     bool compare_left = (target_left > get_position(SIDE_LEFT));
     bool compare_right = (target_right > get_position(SIDE_RIGHT));
     
-    while (((target_left > get_position(SIDE_LEFT)) == compare_left ||
-            (target_right > get_position(SIDE_RIGHT)) == compare_right) &&
-           
-           (fabs(target_left - get_position(SIDE_LEFT)) > buffer ||
-            fabs(target_right - get_position(SIDE_RIGHT)) > buffer))
+    while (((target_left > get_position(SIDE_LEFT)) == compare_left &&
+             fabs(target_left - get_position(SIDE_LEFT)) > buffer) ||
+
+             ((target_right > get_position(SIDE_RIGHT)) == compare_right &&
+             fabs(target_right - get_position(SIDE_RIGHT)) > buffer))
       
       pros::delay(10);
   }

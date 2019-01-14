@@ -17,6 +17,10 @@ namespace chassis {
     SIDE_BOTH
   };
 
+  // target positions
+  extern float target_left;
+  extern float target_right;
+
   // motors
   extern pros::Motor motor_front_left;
   extern pros::Motor motor_back_left;
@@ -41,12 +45,12 @@ namespace chassis {
   
   // convert angle (degrees) to distance (inches)
   inline float angle_to_dist(float angle) {
-    return angle * PI/180 * WHEEL_DIAM * PI / EXT_REDUCT;
+    return angle * (PI/180) * WHEEL_DIAM * PI / EXT_REDUCT;
   }
   
   // convert distance (inches) to angle (degrees)
   inline float dist_to_angle(float dist) {
-    return dist * EXT_REDUCT / (* PI/180 * WHEEL_DIAM * PI);
+    return dist * EXT_REDUCT / ((PI/180) * WHEEL_DIAM * PI);
   }
 
   // PWM control
