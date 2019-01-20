@@ -11,7 +11,7 @@ namespace catapult {
 
 
   // motor
-  pros::Motor motor(6, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor(1, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 
   // where the catapult goes when it's not doing anything

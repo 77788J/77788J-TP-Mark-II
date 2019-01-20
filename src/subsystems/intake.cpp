@@ -5,7 +5,7 @@ namespace intake {
 
 
   // motor
-  pros::Motor motor(5, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor(11, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 
   // state data
@@ -34,7 +34,7 @@ namespace intake {
   // toggle on/off
   void toggle(Mode new_mode) { 
     if (new_mode == mode) set_mode(MODE_OFF);
-    set_mode(new_mode);
+    else set_mode(new_mode);
   }
 
 
