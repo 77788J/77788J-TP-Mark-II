@@ -30,6 +30,10 @@ extern bool intake_auto;
 extern bool flip_auto;
 extern bool lift_auto;
 
+static inline float sign(float x) {
+  return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+}
+
 void autonomous(void);
 void initialize(void);
 void disabled(void);

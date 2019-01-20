@@ -76,13 +76,13 @@ namespace chassis {
 
 
   // arc position control
-  void move_arc(float radius, float angle, float max_vel, bool wait, bool stop) {
-    long double angle_rad = angle * PI / 180;
+  void move_arc(float radius, float angle, float max_vel, bool wait, bool stop, bool generated) {
+    long double angle_rad = angle * PI / 180 * (generated ? -sign(radius) : 1);
 
     // calculate left/right distances
     float left_dist;
     float right_dist;
-    if (radius > 0) {
+    if (radius < 0) {
       right_dist = angle_rad * (radius + WHEEL_DIST * .5f);
       left_dist = angle_rad * (radius - WHEEL_DIST * .5f);
     }
@@ -100,7 +100,7 @@ namespace chassis {
     // calculate left/right velocities
     float left_vel;
     float right_vel;
-    if (radius > 0) {
+    if (radius < 0) {
       right_vel = max_vel;
       left_vel = max_vel * (left_dist / right_dist);
     }
