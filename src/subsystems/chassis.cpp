@@ -9,10 +9,19 @@ namespace chassis {
 
 
   // motors
-  pros::Motor motor_front_left(13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
-  pros::Motor motor_back_left(15, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
-  pros::Motor motor_front_right(2, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
-  pros::Motor motor_back_right(4, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor_front_left(14, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor_back_left(20, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor_front_right(18, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor_back_right(19, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+
+
+  // initialize
+  void init() {
+    motor_front_left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    motor_back_left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    motor_front_right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    motor_back_right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  }
 
 
   // PWM control
@@ -39,6 +48,19 @@ namespace chassis {
     motor_back_left.move_velocity(left);
     motor_front_right.move_velocity(right);
     motor_back_right.move_velocity(right);
+  }
+
+
+  // relative orientation control (degrees)
+  void rotate_by(float degrees, float max_vel, bool wait, bool stop) {
+    float dist = degrees * (PI / 180.f) * WHEEL_DIST / 2.f;
+    move_position_relative(-dist, dist, max_vel, wait, stop);
+  }
+
+
+  // absolute orientation control (degrees) 
+  void rotate_to_orientation(float degrees, float max_vel, bool wait, bool stop) {
+    rotate_by(degrees - get_orientation(), max_vel, wait, stop);
   }
 
 
@@ -71,6 +93,7 @@ namespace chassis {
   
   // move distance (relative) (inches)
   void move_dist(float left, float right, float max_vel, bool wait, bool stop) {
+    printf("%f\t%f\n", left,  right);
     move_position_relative(dist_to_angle(left), dist_to_angle(right), max_vel, wait, stop);
   }
 

@@ -15,22 +15,27 @@ bool lift_auto = false;
 
 // chassis control
 void driver_chassis() {
-  chassis::move_voltage(controller.analog_left_y * 12000, controller.analog_right_y * 12000);
+  if (fabs(controller.analog_left_y) + fabs(controller.analog_right_y) <= 5) chassis::move_velocity(0, 0);
+  else chassis::move_voltage(controller.analog_left_y * 12000, controller.analog_right_y * 12000);
 }
 
 
 // catapult control
 void driver_catapult() {
 
-  // fire on button press
-  if (controller.btn_r1_new == 1) catapult::fire();
+  // manual override
+  if (controller.btn_b) catapult::manual_override_voltage = -12000;
+  else {
+    catapult::manual_override_voltage = catapult::OVERRIDE_DISABLED;
 
-  // rumble on button press
-  if (controller.btn_x_new == 1) {
-    if (flag_tracker::in_range_double_shot) controller.controller.rumble(".-");
-    else if (flag_tracker::in_range_far_shot_mid || flag_tracker::in_range_near_shot_mid) controller.controller.rumble(".");
-    else if (flag_tracker::in_range_far_shot_top || flag_tracker::in_range_near_shot_top) controller.controller.rumble("-");
+    // fire on button press
+    if (controller.btn_r1_new == 1) {
+      catapult::fire();
+      controller.controller.rumble(".");
+    }
   }
+
+  catapult::update();
 }
 
 
@@ -57,14 +62,17 @@ void driver_lift() {
   }
 
   // manual control
-  if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_FLIP_START);
-  if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_MIN);
-  if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 75) lift::goto_height(lift::get_height());
+  if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_MAX);
+  if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
+  if (controller.btn_l1_new == -1)  {
+    if (controller.btn_l1_hold_time > 100 && lift::get_height() >= lift::HEIGHT_MIN) lift::goto_height(lift::get_height());
+    else lift::goto_height(lift::HEIGHT_MIN);
+  }
   if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 75) lift::goto_height(lift::get_height());
   if (controller.btn_up_new == 1) lift::flip_air();
   if (controller.btn_right_new == 1) lift::flip_ground();
-  if (controller.btn_down_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
-  if (controller.btn_down_new == -1) lift::goto_height(lift::HEIGHT_MIN);
+  // if (controller.btn_down_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
+  // if (controller.btn_down_new == -1) lift::goto_height(lift::HEIGHT_MIN);
 
   lift::update(10);
 }
@@ -74,6 +82,7 @@ void opcontrol() {
 
 // init necessary stuff
 catapult::set_resting_position(catapult::resting_position);
+chassis::init();
 
  while (true) {
 
@@ -94,6 +103,9 @@ catapult::set_resting_position(catapult::resting_position);
 
   if (cap_tracker::cap_count >= 1) printf("%f\"\n", cap_tracker::caps[0].robot_dist);
 
-    delay(10);
+  printf("%f\t%f\n", chassis::get_position(chassis::SIDE_LEFT), chassis::get_position(chassis::SIDE_RIGHT));
+  if (ball_tracker::ball_count > 0) printf("x: %f\ty: %f\tdist: %f\n", ball_tracker::balls[0].vision_x, ball_tracker::balls[0].vision_y, ball_tracker::balls[0].robot_dist);
+
+  delay(10);
   }
 }

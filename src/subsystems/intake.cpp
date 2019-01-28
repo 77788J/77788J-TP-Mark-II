@@ -5,7 +5,7 @@ namespace intake {
 
 
   // motor
-  pros::Motor motor(11, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+  pros::Motor motor(12, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 
   // state data

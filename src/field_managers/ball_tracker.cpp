@@ -9,7 +9,7 @@ namespace ball_tracker {
 
 
   // vision sensor
-  pros::Vision vision_sensor(9);
+  pros::Vision vision_sensor(13);
 
 
   // array of balls
