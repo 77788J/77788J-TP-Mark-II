@@ -95,6 +95,8 @@ chassis::init();
   flag_tracker::update_flags();
   flag_tracker::update_flagpoles();
 
+  if (pros::millis() % 1000 == 0) catapult::set_resting_position(catapult::resting_position);
+
   // update driver control
    driver_chassis();
    driver_catapult();
