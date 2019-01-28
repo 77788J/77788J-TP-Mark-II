@@ -30,7 +30,9 @@ namespace ball_tracker {
 
   // array of balls
   extern int ball_count; // how many balls are currently visible
+  extern int ball_count_basic; // how many balls are currently visible (raw visiob data only)
   extern Ball balls[MAX_BALLS]; // array of balls currently visible
+  extern pros::vision_object_s_t balls_basic[MAX_BALLS]; // array of balls currently visible (raw vision data only)
 
   // calculate distance from vision y coordinate
   float calc_ball_dist(float center_y);

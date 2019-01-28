@@ -8,13 +8,21 @@ namespace ball_tracker {
   #define ZERO_DIST (SENSOR_ANGLE_RAD == 0) ? 0 : SENSOR_HEIGHT / tan(SENSOR_ANGLE_RAD)
 
 
+  // array of balls
+  int ball_count = 0;
+  Ball balls[MAX_BALLS];
+  int ball_count_basic = 0;
+  pros::vision_object_s_t balls_basic[MAX_BALLS];
+
+
   // vision sensor
   pros::Vision vision_sensor(13);
 
 
-  // array of balls
-  int ball_count = 0;
-  Ball balls[MAX_BALLS];
+  // get basic ball data without fancy calculations
+  void update_balls_basic() {
+    ball_count_basic = vision_sensor.read_by_sig(0, BALL_SIG, MAX_BALLS, balls_basic);
+  }
 
 
   // calculate distance from vision y coordinate

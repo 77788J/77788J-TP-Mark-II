@@ -43,11 +43,11 @@ namespace intake {
     if (mode == MODE_AUTO) {
 
       if (
-        ball_tracker::ball_count > 0 &&
-        fabs(VISION_IMAGE_WIDTH/2 - ball_tracker::balls[0].vision_x) < VISION_IMAGE_WIDTH * .75 &&
-        ball_tracker::balls[0].robot_dist < auto_dist_threshold
+        ball_tracker::ball_count_basic > 0 &&
+        abs(VISION_IMAGE_WIDTH/2 - ball_tracker::balls_basic[0].x_middle_coord) < VISION_IMAGE_WIDTH * .75f &&
+        ball_tracker::balls_basic[0].y_middle_coord > AUTO_Y_THRESHOLD
       ) motor.move_voltage(12000);
-      else motor.move_voltage(-12000);
+      else motor.move_voltage(0);
 
     }
   }

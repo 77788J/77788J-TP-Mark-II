@@ -8,7 +8,7 @@
 using namespace pros;
 
 
-bool intake_auto = false;
+bool intake_auto = true;
 bool flip_auto = false;
 bool lift_auto = false;
 
@@ -104,7 +104,7 @@ chassis::init();
   if (cap_tracker::cap_count >= 1) printf("%f\"\n", cap_tracker::caps[0].robot_dist);
 
   printf("%f\t%f\n", chassis::get_position(chassis::SIDE_LEFT), chassis::get_position(chassis::SIDE_RIGHT));
-  if (ball_tracker::ball_count > 0) printf("x: %f\ty: %f\tdist: %f\n", ball_tracker::balls[0].vision_x, ball_tracker::balls[0].vision_y, ball_tracker::balls[0].robot_dist);
+  if (ball_tracker::ball_count > 0) printf("x: %d\ty: %d\n", ball_tracker::balls_basic[0].x_middle_coord, ball_tracker::balls_basic[0].y_middle_coord);
 
   delay(10);
   }
