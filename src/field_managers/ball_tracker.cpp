@@ -16,7 +16,15 @@ namespace ball_tracker {
 
 
   // vision sensor
+  pros::vision_signature_s_t BALL_SIG_CONFIG = {1, {1, 0, 0}, 9.100, 893, 1905, 1399, -5643, -4965, -5304, 0, 0};
   pros::Vision vision_sensor(13);
+
+
+  // initialize
+  void init() {
+    // vision_sensor.set_exposure(37);
+    // vision_sensor.set_signature(BALL_SIG, &BALL_SIG_CONFIG);
+  }
 
 
   // get basic ball data without fancy calculations

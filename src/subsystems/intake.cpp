@@ -39,16 +39,18 @@ namespace intake {
 
 
   // update
+  int last_update = -1500;
   void update(int delta_t) {
     if (mode == MODE_AUTO) {
-
       if (
-        ball_tracker::ball_count_basic > 0 &&
-        abs(VISION_IMAGE_WIDTH/2 - ball_tracker::balls_basic[0].x_middle_coord) < VISION_IMAGE_WIDTH * .75f &&
-        ball_tracker::balls_basic[0].y_middle_coord > AUTO_Y_THRESHOLD
-      ) motor.move_voltage(12000);
+        ball_tracker::ball_count > 0 &&
+        ball_tracker::vision_sensor.get_by_size(0).y_middle_coord > AUTO_Y_THRESHOLD
+      ) {
+        last_update = pros::millis();
+        motor.move_voltage(12000);
+      }
+      else if (pros::millis() - last_update <= 1500) motor.move_voltage(12000);
       else motor.move_voltage(0);
-
     }
   }
 }

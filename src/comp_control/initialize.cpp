@@ -3,6 +3,7 @@
 
 void initialize() {
   catapult::set_resting_position(catapult::resting_position);
+  chassis::init();
 }
 
 void disabled() {}

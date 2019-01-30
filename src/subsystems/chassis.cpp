@@ -106,12 +106,12 @@ namespace chassis {
     float left_dist;
     float right_dist;
     if (radius < 0) {
-      right_dist = angle_rad * (radius + WHEEL_DIST * .5f);
-      left_dist = angle_rad * (radius - WHEEL_DIST * .5f);
+      right_dist = angle_rad * (fabs(radius) + WHEEL_DIST * .5f);
+      left_dist = angle_rad * (fabs(radius) - WHEEL_DIST * .5f);
     }
     else {
-      left_dist = angle_rad * (radius + WHEEL_DIST * .5f);
-      right_dist = angle_rad * (radius - WHEEL_DIST * .5f);
+      left_dist = angle_rad * (fabs(radius) + WHEEL_DIST * .5f);
+      right_dist = angle_rad * (fabs(radius) - WHEEL_DIST * .5f);
     }
     left_dist = dist_to_angle(left_dist);
     right_dist = dist_to_angle(right_dist);
@@ -133,16 +133,17 @@ namespace chassis {
     }
 
     // stop/continue movement
-    if (stop) {
-      motor_front_left.move_absolute(target_left, left_vel);
-      motor_back_left.move_absolute(target_left, left_vel);
-      motor_front_right.move_absolute(target_right, right_vel);
-      motor_back_right.move_absolute(target_right, right_vel);
-    }
-    else move_velocity(left_vel, right_vel);
+    // if (stop) {
+    //   motor_front_left.move_absolute(target_left, left_vel);
+    //   motor_back_left.move_absolute(target_left, left_vel);
+    //   motor_front_right.move_absolute(target_right, right_vel);
+    //   motor_back_right.move_absolute(target_right, right_vel);
+    // }
+    /*else*/ move_velocity(left_vel, right_vel);
 
     // wait for completion
     if (wait) wait_for_completion();
+    if (stop) move_velocity(0, 0);
   }
     
     

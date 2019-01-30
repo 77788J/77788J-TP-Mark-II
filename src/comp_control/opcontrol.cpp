@@ -15,7 +15,8 @@ bool lift_auto = false;
 
 // chassis control
 void driver_chassis() {
-  if (fabs(controller.analog_left_y) + fabs(controller.analog_right_y) <= 5) chassis::move_velocity(0, 0);
+  printf("%f\t%f\n", fabs(controller.analog_left_y), fabs(controller.analog_right_y));
+  if (fabs(controller.analog_left_y) + fabs(controller.analog_right_y) <= .05f) chassis::move_velocity(0, 0);
   else chassis::move_voltage(controller.analog_left_y * 12000, controller.analog_right_y * 12000);
 }
 
@@ -24,7 +25,7 @@ void driver_chassis() {
 void driver_catapult() {
 
   // manual override
-  if (controller.btn_b) catapult::manual_override_voltage = -12000;
+  if (controller.btn_b) catapult::manual_override_voltage = 0;
   else {
     catapult::manual_override_voltage = catapult::OVERRIDE_DISABLED;
 
@@ -41,7 +42,11 @@ void driver_catapult() {
 
 // intake control
 void driver_intake() {
-  if (intake_auto) intake::set_mode(intake::MODE_AUTO);
+  if (intake_auto) {
+    if (controller.btn_r2) intake::set_mode(intake::MODE_INTAKE);
+    else if (controller.btn_a) intake::set_mode(intake::MODE_OUTTAKE);
+    else intake::set_mode(intake::MODE_AUTO);
+  }
   else if (controller.btn_r2_new == 1) intake::toggle(intake::MODE_INTAKE);
   else if (controller.btn_a_new == 1) intake::toggle(intake::MODE_OUTTAKE);
 
@@ -95,6 +100,7 @@ chassis::init();
   flag_tracker::update_flags();
   flag_tracker::update_flagpoles();
 
+  // cause the catapult seems to be ignored when the program starts occasionally
   if (pros::millis() % 1000 == 0) catapult::set_resting_position(catapult::resting_position);
 
   // update driver control
@@ -102,11 +108,6 @@ chassis::init();
    driver_catapult();
    driver_intake();
    driver_lift();
-
-  if (cap_tracker::cap_count >= 1) printf("%f\"\n", cap_tracker::caps[0].robot_dist);
-
-  printf("%f\t%f\n", chassis::get_position(chassis::SIDE_LEFT), chassis::get_position(chassis::SIDE_RIGHT));
-  if (ball_tracker::ball_count > 0) printf("x: %d\ty: %d\n", ball_tracker::balls_basic[0].x_middle_coord, ball_tracker::balls_basic[0].y_middle_coord);
 
   delay(10);
   }
