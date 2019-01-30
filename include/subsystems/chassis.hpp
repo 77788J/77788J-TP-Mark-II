@@ -55,11 +55,14 @@ namespace chassis {
 
   // get absolute angle relative to start of auton
   static inline float get_orientation() {
-    return (180.f / PI) * angle_to_dist(get_position(SIDE_LEFT) - get_position(SIDE_RIGHT)) / WHEEL_DIST;
+    return (180.f / PI) * (angle_to_dist(get_position(SIDE_RIGHT)) - angle_to_dist(get_position(SIDE_LEFT))) / WHEEL_DIST;
   }
 
   // init
   void init();
+
+  // set brake mode
+  void set_brake_mode(pros::motor_brake_mode_e mode);
 
   // PWM control
   void move(float left, float right);

@@ -44,7 +44,9 @@ namespace intake {
     if (mode == MODE_AUTO) {
       if (
         ball_tracker::ball_count > 0 &&
-        ball_tracker::vision_sensor.get_by_size(0).y_middle_coord > AUTO_Y_THRESHOLD
+        ball_tracker::vision_sensor.get_by_size(0).y_middle_coord > AUTO_Y_THRESHOLD &&
+        ball_tracker::vision_sensor.get_by_size(0).width > 20 &&
+        ball_tracker::vision_sensor.get_by_size(0).height > 20
       ) {
         last_update = pros::millis();
         motor.move_voltage(12000);

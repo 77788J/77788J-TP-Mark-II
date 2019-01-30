@@ -17,10 +17,16 @@ namespace chassis {
 
   // initialize
   void init() {
-    motor_front_left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    motor_back_left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    motor_front_right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    motor_back_right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  }
+
+
+  // set brake mode
+  void set_brake_mode(pros::motor_brake_mode_e mode) {
+    motor_front_left.set_brake_mode(mode);
+    motor_back_left.set_brake_mode(mode);
+    motor_front_right.set_brake_mode(mode);
+    motor_back_right.set_brake_mode(mode);
   }
 
 
@@ -54,7 +60,7 @@ namespace chassis {
   // relative orientation control (degrees)
   void rotate_by(float degrees, float max_vel, bool wait, bool stop) {
     float dist = degrees * (PI / 180.f) * WHEEL_DIST / 2.f;
-    move_position_relative(-dist, dist, max_vel, wait, stop);
+    move_dist(-dist, dist, max_vel, wait, stop);
   }
 
 

@@ -15,9 +15,14 @@ bool lift_auto = false;
 
 // chassis control
 void driver_chassis() {
-  printf("%f\t%f\n", fabs(controller.analog_left_y), fabs(controller.analog_right_y));
-  if (fabs(controller.analog_left_y) + fabs(controller.analog_right_y) <= .05f) chassis::move_velocity(0, 0);
-  else chassis::move_voltage(controller.analog_left_y * 12000, controller.analog_right_y * 12000);
+  if ((controller.btn_l1 || controller.btn_l2) && fabs(controller.analog_left_y) + fabs(controller.analog_right_y) <= .05f) {
+    chassis::move_velocity(0, 0);
+    chassis::set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  }
+  else {
+    chassis::move_voltage(controller.analog_left_y * 12000, controller.analog_right_y * 12000);
+    chassis::set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  }
 }
 
 
@@ -69,11 +74,11 @@ void driver_lift() {
   // manual control
   if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_MAX);
   if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
-  if (controller.btn_l1_new == -1)  {
-    if (controller.btn_l1_hold_time > 100 && lift::get_height() >= lift::HEIGHT_MIN) lift::goto_height(lift::get_height());
+  if (controller.btn_l2_new == -1)  {
+    if (controller.btn_l2_hold_time > 100 && lift::get_height() >= lift::HEIGHT_MIN) lift::goto_height(lift::get_height());
     else lift::goto_height(lift::HEIGHT_MIN);
   }
-  if (controller.btn_l2_new == -1 && controller.btn_l2_hold_time > 75) lift::goto_height(lift::get_height());
+  if (controller.btn_l1_new == -1 && controller.btn_l1_hold_time > 100) lift::goto_height(lift::get_height());
   if (controller.btn_up_new == 1) lift::flip_air();
   if (controller.btn_right_new == 1) lift::flip_ground();
   // if (controller.btn_down_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
