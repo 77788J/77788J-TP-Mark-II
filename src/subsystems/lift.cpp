@@ -5,6 +5,9 @@ namespace lift {
 
   // status
   bool is_flipping = false;
+  
+
+  bool in_macro = false;
 
 
   // motors
@@ -16,7 +19,6 @@ namespace lift {
   float calc_height(float angle) {
     return (ARM_LENGTH * sin(angle * .0174532925)) + HEIGHT_FULCRUM;
   }
-
   float calc_angle(float height) {
     return asin((height - HEIGHT_FULCRUM) / ARM_LENGTH) * 57.2957795;
   }
@@ -33,15 +35,22 @@ namespace lift {
   }
 
 
-  // goto positions
-  void goto_angle(float degrees) {
-    motor_left.move_absolute((degrees - ANGLE_START) * REDUCTION, 200.f);
-    motor_right.move_absolute((degrees - ANGLE_START) * REDUCTION, 200.f);
+  // voltage control
+  void move_voltage(float voltage) {
+    motor_left.move_voltage(voltage);
+    motor_right.move_voltage(voltage);
   }
 
-  void goto_height(float height, bool flipping) {
+
+  // goto positions
+  void goto_angle(float degrees, float max_vel) {
+    motor_left.move_absolute((degrees - ANGLE_START) * REDUCTION, max_vel);
+    motor_right.move_absolute((degrees - ANGLE_START) * REDUCTION, max_vel);
+  }
+
+  void goto_height(float height, bool flipping, float max_vel) {
     if (!flipping) is_flipping = false;
-    goto_angle(calc_angle(height));
+    goto_angle(calc_angle(height), max_vel);
   }
   
 

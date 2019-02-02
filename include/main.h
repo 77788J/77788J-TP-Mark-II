@@ -18,7 +18,7 @@
 #define PROS_USE_SIMPLE_NAMES
 #define PROS_USE_LITERALS
 
-#include "api.h"
+#include "pros/apix.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,6 +32,14 @@ extern bool lift_auto;
 
 static inline float sign(float x) {
   return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+}
+
+static inline float min(float a, float b) {
+  return (a < b) ? a : b;
+}
+
+static inline float max(float a, float b) {
+  return (a > b) ? a : b;
 }
 
 void autonomous(void);

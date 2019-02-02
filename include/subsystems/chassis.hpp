@@ -21,6 +21,8 @@ namespace chassis {
   extern float target_left;
   extern float target_right;
 
+  extern bool in_macro;
+
   // motors
   extern pros::Motor motor_front_left;
   extern pros::Motor motor_back_left;
@@ -93,7 +95,7 @@ namespace chassis {
   void move_arc(float radius, float angle, float max_vel=300, bool wait=true, bool stop=true, bool generated=false);
   
   // wait for a movement to be finished
-  void wait_for_completion(float buffer=3);
+  void wait_for_completion(int end_time=60000, float buffer=3);
 
 }
 

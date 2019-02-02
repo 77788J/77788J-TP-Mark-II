@@ -21,6 +21,7 @@ namespace catapult {
 
   // manual override
   extern int manual_override_voltage;
+  extern bool in_macro;
 
   // where the catapult goes when it's not doing anything
   extern float resting_position;

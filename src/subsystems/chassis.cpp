@@ -7,6 +7,9 @@ namespace chassis {
   float target_left = 0;
   float target_right = 0;
 
+  
+  bool in_macro = false;
+
 
   // motors
   pros::Motor motor_front_left(14, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
@@ -76,6 +79,7 @@ namespace chassis {
     // set target variables
     target_left = left;
     target_right = right;
+    int end_time = pros::millis() + 650 * max(fabs(left - get_position(SIDE_LEFT)), fabs(right - get_position(SIDE_RIGHT))) / max_vel;
 
     // stop/continue movement
     if (stop) {
@@ -87,7 +91,7 @@ namespace chassis {
     else move_velocity(max_vel, max_vel);
 
     // wait for completion
-    if (wait) wait_for_completion();
+    if (wait) wait_for_completion(end_time);
   }
 
 
@@ -154,15 +158,16 @@ namespace chassis {
     
     
   // wait for a movement to be finished
-  void wait_for_completion(float buffer) {
+  void wait_for_completion(int end_time, float buffer) {
     bool compare_left = (target_left > get_position(SIDE_LEFT));
     bool compare_right = (target_right > get_position(SIDE_RIGHT));
     
-    while (((target_left > get_position(SIDE_LEFT)) == compare_left &&
-             fabs(target_left - get_position(SIDE_LEFT)) > buffer) ||
+    while ((((target_left > get_position(SIDE_LEFT)) == compare_left &&
+              fabs(target_left - get_position(SIDE_LEFT)) > buffer) ||
 
              ((target_right > get_position(SIDE_RIGHT)) == compare_right &&
-             fabs(target_right - get_position(SIDE_RIGHT)) > buffer))
+              fabs(target_right - get_position(SIDE_RIGHT)) > buffer)) &&
+              pros::millis() <= end_time)
       
       pros::delay(10);
   }

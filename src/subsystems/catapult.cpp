@@ -16,6 +16,7 @@ namespace catapult {
 
   // manual override
   int manual_override_voltage = OVERRIDE_DISABLED;
+  bool in_macro = false;
 
 
   // where the catapult goes when it's not doing anything
