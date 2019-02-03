@@ -42,6 +42,12 @@ static inline float max(float a, float b) {
   return (a > b) ? a : b;
 }
 
+static inline float clamp(float val, float min, float max) {
+  if (val < min) return min;
+  if (val > max) return max;
+  return val;
+}
+
 void autonomous(void);
 void initialize(void);
 void disabled(void);

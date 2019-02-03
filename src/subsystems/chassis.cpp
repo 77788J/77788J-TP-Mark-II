@@ -1,4 +1,5 @@
 #include "../../include/subsystems/chassis.hpp"
+#include "../../include/subsystems/chassis_profile_follower.hpp"
 
 namespace chassis {
   
@@ -33,6 +34,28 @@ namespace chassis {
   }
 
 
+  // sets current orientation to provided value (degrees)
+  void set_orientation(float orientation) {
+    float inches_reference = orientation * (PI / 180.f) * WHEEL_DIST * .5f;
+    set_pos(-dist_to_angle(inches_reference), dist_to_angle(inches_reference));
+  }
+
+
+  // sets current position to provided value (degrees)
+  void set_pos(float left, float right) {
+    motor_front_left.set_zero_position(motor_front_left.get_position() - left);
+    motor_back_left.set_zero_position(motor_back_left.get_position() - left);
+    motor_front_right.set_zero_position(motor_front_right.get_position() - right);
+    motor_back_right.set_zero_position(motor_back_right.get_position() - right);
+  }
+
+
+  // sets current distance to provided value (inches)
+  void set_dist(float left, float right) {
+    set_pos(angle_to_dist(left), angle_to_dist(right));
+  }
+
+
   // PWM control
   void move(float left, float right) {
     motor_front_left.move(left);
@@ -61,100 +84,23 @@ namespace chassis {
 
 
   // relative orientation control (degrees)
-  void rotate_by(float degrees, float max_vel, bool wait, bool stop) {
-    float dist = degrees * (PI / 180.f) * WHEEL_DIST / 2.f;
-    move_dist(-dist, dist, max_vel, wait, stop);
+  void rotate_by(float degrees, float max_voltage, bool wait, bool stop) {
+    chassis_profile_follower::rotate_by(degrees, max_voltage, 0, wait);
   }
 
 
   // absolute orientation control (degrees) 
-  void rotate_to_orientation(float degrees, float max_vel, bool wait, bool stop) {
-    rotate_by(degrees - get_orientation(), max_vel, wait, stop);
-  }
-
-
-  // absolute position control (degrees)
-  void move_position_absolute(float left, float right, float max_vel, bool wait, bool stop) {
-    
-    // set target variables
-    target_left = left;
-    target_right = right;
-    int end_time = pros::millis() + 650 * max(fabs(left - get_position(SIDE_LEFT)), fabs(right - get_position(SIDE_RIGHT))) / max_vel;
-
-    // stop/continue movement
-    if (stop) {
-      motor_front_left.move_absolute(target_left, max_vel);
-      motor_back_left.move_absolute(target_left, max_vel);
-      motor_front_right.move_absolute(target_right, max_vel);
-      motor_back_right.move_absolute(target_right, max_vel);
-    }
-    else move_velocity(max_vel, max_vel);
-
-    // wait for completion
-    if (wait) wait_for_completion(end_time);
-  }
-
-
-  // relative position control (degrees)
-  void move_position_relative(float left, float right, float max_vel, bool wait, bool stop) {
-    move_position_absolute(get_position(SIDE_LEFT) + left, get_position(SIDE_RIGHT) + right, max_vel, wait, stop);
+  void rotate_to_orientation(float degrees, float max_voltage, bool wait, bool stop) {
+    rotate_by(degrees - get_orientation(), max_voltage, wait, stop);
   }
   
   
   // move distance (relative) (inches)
-  void move_dist(float left, float right, float max_vel, bool wait, bool stop) {
-    printf("%f\t%f\n", left,  right);
-    move_position_relative(dist_to_angle(left), dist_to_angle(right), max_vel, wait, stop);
-  }
-
-
-  // arc position control
-  void move_arc(float radius, float angle, float max_vel, bool wait, bool stop, bool generated) {
-    long double angle_rad = angle * PI / 180 * (generated ? -sign(radius) : 1);
-
-    // calculate left/right distances
-    float left_dist;
-    float right_dist;
-    if (radius < 0) {
-      right_dist = angle_rad * (fabs(radius) + WHEEL_DIST * .5f);
-      left_dist = angle_rad * (fabs(radius) - WHEEL_DIST * .5f);
-    }
-    else {
-      left_dist = angle_rad * (fabs(radius) + WHEEL_DIST * .5f);
-      right_dist = angle_rad * (fabs(radius) - WHEEL_DIST * .5f);
-    }
-    left_dist = dist_to_angle(left_dist);
-    right_dist = dist_to_angle(right_dist);
-
-    // calculate left/right final positions
-    target_left = get_position(SIDE_LEFT) + left_dist;
-    target_right = get_position(SIDE_RIGHT) + right_dist;
-
-    // calculate left/right velocities
-    float left_vel;
-    float right_vel;
-    if (radius < 0) {
-      right_vel = max_vel;
-      left_vel = max_vel * (left_dist / right_dist);
-    }
-    else {
-      left_vel = max_vel;
-      right_vel = max_vel * (right_dist / left_dist);
-    }
-
-    // stop/continue movement
-    // if (stop) {
-    //   motor_front_left.move_absolute(target_left, left_vel);
-    //   motor_back_left.move_absolute(target_left, left_vel);
-    //   motor_front_right.move_absolute(target_right, right_vel);
-    //   motor_back_right.move_absolute(target_right, right_vel);
-    // }
-    /*else*/ move_velocity(left_vel, right_vel);
-
-    // wait for completion
-    if (wait) wait_for_completion();
-    if (stop) move_velocity(0, 0);
-  }
+ void move_dist(float dist, float max_voltage, float start_voltage, bool wait, bool stop) {
+   float motor_dist = dist_to_angle(dist);
+   if (stop) chassis_profile_follower::move_definite(motor_dist, max_voltage, start_voltage, false, wait);
+   else chassis_profile_follower::move_indefinite(max_voltage, start_voltage, false, wait);
+ }
     
     
   // wait for a movement to be finished

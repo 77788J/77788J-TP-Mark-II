@@ -3,10 +3,10 @@
 
 #include "../main.h"
 
-namespace chassis {
+namespace chassis_old {
 
   // physical characteristics
-  static const float WHEEL_DIST = 14.5f; // distance between wheels (inches)
+  static const float WHEEL_DIST = 15.f; // distance between wheels (inches)
   static const float WHEEL_DIAM = 4.125f; // diameter of wheels (inches)
   static const float EXT_REDUCT = 7.f/3.f; // external gear reduction (wheel/motor)
 
@@ -14,8 +14,7 @@ namespace chassis {
   enum Side {
     SIDE_LEFT,
     SIDE_RIGHT,
-    SIDE_BOTH,
-    SIDE_BOTH_TURN
+    SIDE_BOTH
   };
 
   // target positions
@@ -45,7 +44,6 @@ namespace chassis {
     if (side == SIDE_LEFT) return (motor_front_left.get_position() + motor_back_left.get_position()) * .5f;
     if (side == SIDE_RIGHT) return (motor_front_right.get_position() + motor_back_right.get_position()) * .5f;
     if (side == SIDE_BOTH) return (get_position(SIDE_LEFT) + get_position(SIDE_RIGHT)) * .5f;
-    if (side == SIDE_BOTH_TURN) return (get_position(SIDE_RIGHT) - get_position(SIDE_LEFT)) * .5f;
     return 0;
   }
 
@@ -54,11 +52,10 @@ namespace chassis {
     if (side == SIDE_LEFT) return (motor_front_left.get_actual_velocity() + motor_back_left.get_actual_velocity()) * .5f;
     if (side == SIDE_RIGHT) return (motor_front_right.get_actual_velocity() + motor_back_right.get_actual_velocity()) * .5f;
     if (side == SIDE_BOTH) return (get_velocity(SIDE_LEFT) + get_velocity(SIDE_RIGHT)) * .5f;
-    if (side == SIDE_BOTH_TURN) return (get_velocity(SIDE_RIGHT) - get_velocity(SIDE_LEFT)) * .5f;
     return 0;
   }
 
-  // get absolute angle
+  // get absolute angle relative to start of auton
   static inline float get_orientation() {
     return (180.f / PI) * (angle_to_dist(get_position(SIDE_RIGHT)) - angle_to_dist(get_position(SIDE_LEFT))) / WHEEL_DIST;
   }
@@ -68,15 +65,6 @@ namespace chassis {
 
   // set brake mode
   void set_brake_mode(pros::motor_brake_mode_e mode);
-
-  // sets current orientation to provided value (degrees)
-  void set_orientation(float orientation=0);
-
-  // sets current position to provided value (degrees)
-  void set_pos(float left=0, float right = 0);
-
-  // sets current distance to provided value (inches)
-  void set_dist(float left=0, float right=0);
 
   // PWM control
   void move(float left, float right);
@@ -92,13 +80,22 @@ namespace chassis {
   void rotate_by(float degrees, float max_vel=600, bool wait=true, bool stop=true);
 
   // absolute orientation control (degrees) 
-  void rotate_to_orientation(float degrees, float max_voltage=12000, bool wait=true, bool stop=true);
+  void rotate_to_orientation(float degrees, float max_vel=600, bool wait=true, bool stop=true);
+
+  // absolute position control (degrees)
+  void move_position_absolute(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
+
+  // relative position control (degrees)
+  void move_position_relative(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
   
   // move distance (relative) (inches)
-  void move_dist(float dist, float max_voltage=12000, float start_voltage=0, bool wait=true, bool stop=true);
+  void move_dist(float left, float right, float max_vel=600, bool wait=true, bool stop=true);
+
+  // arc position control
+  void move_arc(float radius, float angle, float max_vel=300, bool wait=true, bool stop=true, bool generated=false);
   
   // wait for a movement to be finished
-  void wait_for_completion(int timeout=60000, float dist_buffer=.25f);
+  void wait_for_completion(int end_time=60000, float buffer=3);
 
 }
 

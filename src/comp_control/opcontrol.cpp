@@ -1,8 +1,8 @@
 #include "../../include/main.h"
 #include "../../include/controller.hpp"
-#include "../../include/field_managers/ball_tracker.hpp"
-#include "../../include/field_managers/cap_tracker.hpp"
-#include "../../include/field_managers/flag_tracker.hpp"
+// #include "../../include/field_managers/ball_tracker.hpp"
+// #include "../../include/field_managers/cap_tracker.hpp"
+// #include "../../include/field_managers/flag_tracker.hpp"
 #include "../../include/subsystems/subsystems.hpp"
 #include "../../include/macros.hpp"
 
@@ -70,14 +70,14 @@ void driver_lift() {
   if (controller.btn_left) lift::move_voltage(-4200);
   else if (!lift::in_macro) {
 
-  // automatic control
-    if ((flip_auto || lift_auto) && (cap_tracker::cap_count > 0)) {
-      cap_tracker::Cap cap = cap_tracker::caps[0];
-      if (fabs(cap.robot_x) < 6) {
-        if (lift_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
-        else if (flip_auto && controller.btn_l2 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
-      }
-    }
+  // // automatic control
+  //   if ((flip_auto || lift_auto) && (cap_tracker::cap_count > 0)) {
+  //     cap_tracker::Cap cap = cap_tracker::caps[0];
+  //     if (fabs(cap.robot_x) < 6) {
+  //       if (lift_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
+  //       else if (flip_auto && controller.btn_l2 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
+  //     }
+  //   }
 
     // manual control
     if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_MAX);
@@ -107,10 +107,10 @@ chassis::init();
    controller.update();
 
   // update field managers
-  ball_tracker::update();
-  cap_tracker::update();
-  flag_tracker::update_flags();
-  flag_tracker::update_flagpoles();
+  // ball_tracker::update();
+  // cap_tracker::update();
+  // flag_tracker::update_flags();
+  // flag_tracker::update_flagpoles();
 
   // cause the catapult seems to be ignored when the program starts occasionally
   if (pros::millis() % 1000 == 0) catapult::set_resting_position(catapult::resting_position);
@@ -123,6 +123,8 @@ chassis::init();
    driver_catapult();
    driver_intake();
    driver_lift();
+
+   printf("%f\n", chassis::get_orientation());
 
   delay(10);
   }
