@@ -18,6 +18,7 @@ namespace autons {
   extern bool park;
 
   // functions
+  void auto_cap_simple(bool park, bool red, bool get_other_crap=false);
   void auto_red_flag();
   void auto_blue_flag();
   void auto_red_cap();

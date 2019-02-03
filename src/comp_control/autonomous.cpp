@@ -5,6 +5,7 @@
 
 void autonomous() {
 
-  autons::auto_blue_flag();
+  //                      PARK   RED    DO OTHER CRAP
+  autons::auto_cap_simple(true, true, true);
   
 }

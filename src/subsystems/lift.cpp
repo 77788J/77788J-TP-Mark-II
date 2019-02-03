@@ -5,8 +5,7 @@ namespace lift {
 
   // status
   bool is_flipping = false;
-  
-
+  float angle_start_calibrated = ANGLE_START;
   bool in_macro = false;
 
 
@@ -26,7 +25,7 @@ namespace lift {
 
   // calculate absolute angle of lift (degrees)
   float get_angle() {
-    return ANGLE_START + (motor_left.get_position() + motor_right.get_position()) * .5f / REDUCTION;
+    return angle_start_calibrated + (motor_left.get_position() + motor_right.get_position()) * .5f / REDUCTION;
   }
 
   // calculate height of lift (inches)
@@ -44,8 +43,8 @@ namespace lift {
 
   // goto positions
   void goto_angle(float degrees, float max_vel) {
-    motor_left.move_absolute((degrees - ANGLE_START) * REDUCTION, max_vel);
-    motor_right.move_absolute((degrees - ANGLE_START) * REDUCTION, max_vel);
+    motor_left.move_absolute((degrees - angle_start_calibrated) * REDUCTION, max_vel);
+    motor_right.move_absolute((degrees - angle_start_calibrated) * REDUCTION, max_vel);
   }
 
   void goto_height(float height, bool flipping, float max_vel) {

@@ -6,7 +6,7 @@
 
 namespace autons {
 
-  void auto_red_flag(bool feed) {
+  void auto_red_cap(bool feed) {
 
     int orientation_start = feed ? 90 : 0;
     

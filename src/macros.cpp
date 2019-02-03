@@ -44,7 +44,7 @@ namespace macros {
   // reset catapult
   void reset_catapult() {
     catapult::in_macro = true;
-    catapult::manual_override_voltage = 750;
+    catapult::manual_override_voltage = 1250;
     pros::delay(200);
     while (fabs(catapult::motor.get_actual_velocity()) > 5) pros::delay(10);
     catapult::motor.tare_position();

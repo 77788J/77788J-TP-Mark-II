@@ -19,12 +19,12 @@ namespace lift {
   static const float HEIGHT_MAX_SIZE = 14.f; // lift height where prongs are directly below low post cap (inches)
   static const float HEIGHT_FLIP_GROUND = 10.5f; // lift height where cap is flipped on ground
   static const float HEIGHT_LIFT_CAP = 9.f; // minimum lift height where held cap is off ground (inches)
-  static const float HEIGHT_MIN = 6.25f; // minimum lift height before braking (inches)
+  static const float HEIGHT_MIN = 6.5f; // minimum lift height before braking (inches)
   static const float HEIGHT_BRAKE = 3.3; // lift height to engage brake (inches)
 
   // status
   extern bool is_flipping;
-
+  extern float angle_start_calibrated;
   extern bool in_macro;
 
   // motors

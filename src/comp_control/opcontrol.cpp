@@ -33,7 +33,7 @@ void driver_chassis() {
 void driver_catapult() {
 
   // manual override
-  if (controller.btn_b) catapult::manual_override_voltage = 0;
+  if (controller.btn_down) catapult::manual_override_voltage = 0;
   else if (controller.btn_y_new == 1) macros::current_macro = macros::MACRO_RESET_CATAPULT;
   else if (!catapult::in_macro) {
     catapult::manual_override_voltage = catapult::OVERRIDE_DISABLED;
@@ -61,7 +61,14 @@ void driver_intake() {
 
 // lift control
 void driver_lift() {
-  if (!lift::in_macro) {
+
+  if (controller.btn_left_new == -1) {
+    lift::motor_left.tare_position();
+    lift::motor_right.tare_position();
+    lift::goto_height(lift::HEIGHT_MIN);
+  }
+  if (controller.btn_left) lift::move_voltage(-4200);
+  else if (!lift::in_macro) {
 
   // automatic control
     if ((flip_auto || lift_auto) && (cap_tracker::cap_count > 0)) {
