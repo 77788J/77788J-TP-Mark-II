@@ -5,7 +5,7 @@
 
 namespace autons {
 
-  void auto_red_flag() {
+  void auto_blue_flag() {
 
     // setup
     chassis::set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -32,7 +32,7 @@ namespace autons {
     pros::delay(240);
 
     // shoot flags
-    chassis::rotate_to_orientation(90);
+    chassis::rotate_to_orientation(-86.69);
     catapult::fire();
     pros::delay(500);
 
@@ -43,18 +43,18 @@ namespace autons {
 
 
     // flip cap
-    chassis::rotate_to_orientation(180);
+    chassis::rotate_to_orientation(-180);
     chassis::move_dist(-8, -8);
     lift::flip_ground();
     pros::delay(300);
 
     // move back
     chassis::move_dist(20);
-    chassis::rotate_to_orientation(85);
+    chassis::rotate_to_orientation(-85);
 
     // hit flag
     chassis::move_dist(30);
-    chassis::move_dist(24);
+    chassis::move_dist(-24);
 
   }
 }

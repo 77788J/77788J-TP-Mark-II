@@ -5,7 +5,7 @@
 
 namespace autons {
 
-  void auto_red_flag() {
+  void auto_red_cap() {
 
     // setup
     chassis::set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -21,40 +21,25 @@ namespace autons {
 
     // grab ball from cap
     intake::set_mode(intake::MODE_INTAKE);
-    chassis::move_dist(39, 39);
-    chassis::move_dist(-40, -40);
-    intake::set_mode(intake::MODE_OFF);
+    chassis::move_dist(44);
 
-    // jerk catapult
-    catapult::manual_override_voltage = -6900;
-    pros::delay(240);
-    catapult::manual_override_voltage = catapult::OVERRIDE_DISABLED;
-    pros::delay(240);
-
-    // shoot flags
+    // flip other cap
     chassis::rotate_to_orientation(90);
-    catapult::fire();
-    pros::delay(500);
-
-    // turn bottom flag
-    intake::set_mode(intake::MODE_INTAKE);
-    chassis::move_dist(26.5, 26.5);
     intake::set_mode(intake::MODE_OFF);
-
-
-    // flip cap
-    chassis::rotate_to_orientation(180);
-    chassis::move_dist(-8, -8);
+    chassis::move_dist(-4);
     lift::flip_ground();
-    pros::delay(300);
+    pros::delay(269);
 
-    // move back
-    chassis::move_dist(20);
-    chassis::rotate_to_orientation(85);
+    // back out and navigate to parking tile
+    chassis::rotate_to_orientation(0);
+    chassis::move_dist(-38);
+    chassis::rotate_to_orientation(-90);
+    chassis::move_dist(-34.5);
+    chassis::rotate_to_orientation(0);
 
-    // hit flag
-    chassis::move_dist(30);
-    chassis::move_dist(24);
-
+    // park
+    chassis::move_voltage(12000, 12000);
+    pros::delay(2000);
+    chassis::move_velocity(0, 0);
   }
 }

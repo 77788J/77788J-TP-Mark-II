@@ -60,6 +60,7 @@ void driver_intake() {
 
 
 // lift control
+bool bronco_on_tile = false;
 void driver_lift() {
 
   if (controller.btn_left_new == -1) {
@@ -70,27 +71,28 @@ void driver_lift() {
   if (controller.btn_left) lift::move_voltage(-4200);
   else if (!lift::in_macro) {
 
-  // // automatic control
-  //   if ((flip_auto || lift_auto) && (cap_tracker::cap_count > 0)) {
-  //     cap_tracker::Cap cap = cap_tracker::caps[0];
-  //     if (fabs(cap.robot_x) < 6) {
-  //       if (lift_auto && cap.robot_dist < cap_tracker::grab_dist_cap && lift::get_height() < lift::HEIGHT_LIFT_CAP) lift::goto_height(lift::HEIGHT_LIFT_CAP);
-  //       else if (flip_auto && controller.btn_l2 && cap.robot_dist < cap_tracker::flip_dist_cap && !lift::is_flipping) lift::flip_ground();
-  //     }
-  //   }
-
     // manual control
     if (controller.btn_l1_new == 1) lift::goto_height(lift::HEIGHT_MAX);
-    if (controller.btn_l2_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
-    if (controller.btn_l2_new == -1)  {
+    if (controller.btn_l2_new == 1) {
+      if (controller.btn_r2) {
+        if (bronco_on_tile) lift::goto_height(lift::HEIGHT_MAX_SIZE);
+        else lift::goto_height(lift::HEIGHT_PARK);
+        bronco_on_tile = !bronco_on_tile;
+      }
+      else lift::goto_height(lift::HEIGHT_BRAKE);
+    }
+    if (controller.btn_r2_new == 1 && controller.btn_l2) {
+      if (bronco_on_tile) lift::goto_height(lift::HEIGHT_MAX_SIZE);
+      else lift::goto_height(lift::HEIGHT_PARK);
+      bronco_on_tile = !bronco_on_tile;
+    }
+    if (controller.btn_l2_new == -1 && !controller.btn_r2)  {
       if (lift::get_height() >= lift::HEIGHT_MIN) lift::goto_height(lift::get_height());
       else lift::goto_height(lift::HEIGHT_MIN);
     }
     if (controller.btn_l1_new == -1) lift::goto_height(lift::get_height());
     if (controller.btn_up_new == 1) lift::goto_height(lift::HEIGHT_MAX_SIZE);
     if (controller.btn_right_new == 1) lift::flip_ground();
-    // if (controller.btn_down_new == 1) lift::goto_height(lift::HEIGHT_BRAKE);
-    // if (controller.btn_down_new == -1) lift::goto_height(lift::HEIGHT_MIN);
   }
 }
 
