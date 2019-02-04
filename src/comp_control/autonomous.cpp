@@ -5,9 +5,6 @@
 
 void autonomous() {
 
-  //                      PARK   RED    DO OTHER CRAP
-  // autons::auto_cap_simple(true, true, true);
-
-  chassis::rotate_to_orientation(270);
+  autons::auto_red_flag();
   
 }

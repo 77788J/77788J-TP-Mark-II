@@ -85,7 +85,7 @@ namespace chassis {
 
   // relative orientation control (degrees)
   void rotate_by(float degrees, float max_voltage, bool wait, bool stop) {
-    chassis_profile_follower::rotate_by(degrees, max_voltage, 0, wait);
+    chassis_profile_follower::rotate_by(degrees, max_voltage, 3000, stop);
   }
 
 
@@ -98,8 +98,8 @@ namespace chassis {
   // move distance (relative) (inches)
  void move_dist(float dist, float max_voltage, float start_voltage, bool wait, bool stop) {
    float motor_dist = dist_to_angle(dist);
-   if (stop) chassis_profile_follower::move_definite(motor_dist, max_voltage, start_voltage, false, wait);
-   else chassis_profile_follower::move_indefinite(max_voltage, start_voltage, false, wait);
+   if (stop) chassis_profile_follower::move_definite(motor_dist, max_voltage, start_voltage, wait);
+   else chassis_profile_follower::move_indefinite(max_voltage, start_voltage, wait);
  }
     
     

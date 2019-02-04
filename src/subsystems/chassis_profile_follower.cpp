@@ -61,7 +61,7 @@ namespace chassis_profile_follower {
 
       // do the thing
       if (dist > 0) {
-        while (fabs(dist - dist_travelled) > 90 || fabs(chassis::get_velocity(chassis::SIDE_BOTH)) > 5) {
+        while (fabs(dist - dist_travelled) > 128 || fabs(chassis::get_velocity(chassis::SIDE_BOTH)) > 10) {
           if (dist_travelled < dist - dist_travelled) {
             current_voltage = clamp(current_voltage + accel * 10, 0, 12000);
           }
@@ -74,7 +74,7 @@ namespace chassis_profile_follower {
         }
       }
       else {
-        while (fabs(dist - dist_travelled) > 90 || fabs(chassis::get_velocity(chassis::SIDE_BOTH)) > 5) {
+        while (fabs(dist - dist_travelled) > 128 || fabs(chassis::get_velocity(chassis::SIDE_BOTH)) > 10) {
           if (dist_travelled > dist - dist_travelled) {
             current_voltage = clamp(current_voltage - accel * 10, -12000, 0);
           }
@@ -138,7 +138,7 @@ namespace chassis_profile_follower {
 
       // do the thing
       if (dist > 0) {
-        while (fabs(dist - dist_travelled) > 10 || fabs(chassis::get_velocity(chassis::SIDE_BOTH_TURN)) > 5) {
+        while (fabs(dist - dist_travelled) > 128 || fabs(chassis::get_velocity(chassis::SIDE_BOTH_TURN)) > 10) {
           if (dist_travelled < dist - dist_travelled) {
             current_voltage = clamp(current_voltage + accel * 10, 0, 12000);
           }
@@ -151,8 +151,8 @@ namespace chassis_profile_follower {
         }
       }
       else {
-         while (fabs(dist - dist_travelled) > 10 || fabs(chassis::get_velocity(chassis::SIDE_BOTH_TURN)) > 5) {
-          if (dist_travelled < dist - dist_travelled) {
+         while (fabs(dist - dist_travelled) > 128 || fabs(chassis::get_velocity(chassis::SIDE_BOTH_TURN)) > 10) {
+          if (dist_travelled > dist - dist_travelled) {
             current_voltage = clamp(current_voltage - accel * 10, -12000, 0);
           }
           else {
