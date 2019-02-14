@@ -1,6 +1,6 @@
 #include "../../include/main.h"
 #include "../../include/controller.hpp"
-// #include "../../include/field_managers/ball_tracker.hpp"
+#include "../../include/field_managers/ball_tracker.hpp"
 // #include "../../include/field_managers/cap_tracker.hpp"
 // #include "../../include/field_managers/flag_tracker.hpp"
 #include "../../include/subsystems/subsystems.hpp"
@@ -109,7 +109,7 @@ chassis::init();
    controller.update();
 
   // update field managers
-  // ball_tracker::update();
+  ball_tracker::update();
   // cap_tracker::update();
   // flag_tracker::update_flags();
   // flag_tracker::update_flagpoles();

@@ -21,8 +21,8 @@ namespace autons {
 
     // grab ball from cap
     intake::set_mode(intake::MODE_INTAKE);
-    chassis::move_dist(39, 39);
-    chassis::move_dist(-40, -40);
+    chassis::move_dist(41);
+    chassis::move_dist(-42);
     intake::set_mode(intake::MODE_OFF);
 
     // jerk catapult
@@ -32,11 +32,9 @@ namespace autons {
     pros::delay(240);
 
     // shoot flags
-    chassis::rotate_to_orientation(90);
+    chassis::rotate_to_orientation(92);
     catapult::fire();
     pros::delay(500);
-
-    // turn bottom flag
     intake::set_mode(intake::MODE_INTAKE);
     chassis::move_dist(26.5, 26.5);
     intake::set_mode(intake::MODE_OFF);
@@ -44,17 +42,17 @@ namespace autons {
 
     // flip cap
     chassis::rotate_to_orientation(180);
-    chassis::move_dist(-8, -8);
+    chassis::move_dist(-3.8, -3.8);
     lift::flip_ground();
     pros::delay(300);
 
     // move back
-    chassis::move_dist(20);
+    chassis::move_dist(6.69);
     chassis::rotate_to_orientation(85);
 
     // hit flag
     chassis::move_dist(30);
-    chassis::move_dist(24);
+    chassis::move_dist(-24);
 
   }
 }

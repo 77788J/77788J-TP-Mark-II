@@ -32,28 +32,28 @@ namespace autons {
     pros::delay(240);
 
     // shoot flags
-    chassis::rotate_to_orientation(-86.69);
+    chassis::rotate_to_orientation(-88.6);
     catapult::fire();
     pros::delay(500);
 
     // turn bottom flag
     intake::set_mode(intake::MODE_INTAKE);
-    chassis::move_dist(26.5, 26.5);
+    chassis::move_dist(14, 14);
     intake::set_mode(intake::MODE_OFF);
 
 
     // flip cap
-    chassis::rotate_to_orientation(-180);
-    chassis::move_dist(-8, -8);
+    chassis::rotate_to_orientation(-230);
+    chassis::move_dist(-4.5, -4.5);
     lift::flip_ground();
     pros::delay(300);
 
     // move back
-    chassis::move_dist(20);
-    chassis::rotate_to_orientation(-85);
+    chassis::move_dist(16);
+    chassis::rotate_to_orientation(-97);
 
     // hit flag
-    chassis::move_dist(30);
+    chassis::move_dist(43);
     chassis::move_dist(-24);
 
   }

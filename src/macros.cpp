@@ -29,7 +29,7 @@ namespace macros {
     lift::goto_height(lift::HEIGHT_MAX);
     while (lift::get_height() < lift::HEIGHT_MAX - 1.f) pros::delay(10);
     chassis::move_voltage(3200, 3200);
-    pros::delay(69);
+    pros::delay(120);
 
     for (int i = 0; i < 100; i++) {
       lift::move_voltage((42.0 - lift::get_angle()) * 250);
