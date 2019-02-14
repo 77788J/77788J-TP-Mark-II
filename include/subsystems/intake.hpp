@@ -23,6 +23,11 @@ namespace intake {
   // mode
   extern Mode mode;
 
+  // how many balls currently loaded
+  extern char max_loaded;
+  extern char currently_loaded;
+  extern bool in_intake;
+
   // switch mode
   void set_mode(Mode new_mode);
 
