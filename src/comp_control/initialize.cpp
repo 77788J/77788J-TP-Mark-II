@@ -26,21 +26,10 @@ void initialize() {
 
 void disabled() {}
 
-
-namespace autons {
-  Auton selected = AUTON_NONE;
-  bool feed = false;
-  bool park = true;
-}
-
 void competition_initialize() {
+  catapult::set_resting_position(catapult::resting_position);
+  lift::goto_height(lift::HEIGHT_MIN);
   pros::delay(1500);
   catapult::set_resting_position(catapult::resting_position);
   lift::goto_height(lift::HEIGHT_MIN);
-
-  // lvgl
-  // lv_obj_t* flag_red_btn = lv_btn_create(lv_scr_act(), NULL);
-  // lv_btn_get_state(0);
-  // lv_obj_t* flag_red_label = lv_label_create(flag_red_btn, NULL);
-  // lv_label_set_text(flag_red_label, "RED FLAG");
 }
