@@ -60,7 +60,10 @@ namespace intake {
       last_in_intake = pros::millis();
     }
     else in_intake = false;
-    if (limit.new_pressed == -1 && motor.get_voltage() > 0) ++in_catapult;
+    if (limit.new_pressed == -1) {
+      if (motor.get_voltage() > 0) ++in_catapult;
+      else --currently_loaded;
+    }
     if (limit.new_pressed == 1) ++currently_loaded;
 
     if (mode == MODE_AUTO) {
