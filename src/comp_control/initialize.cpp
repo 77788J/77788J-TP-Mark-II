@@ -2,6 +2,7 @@
 #include "../../include/autons.hpp"
 #include "../../include/subsystems/subsystems.hpp"
 #include "../../include/macros.hpp"
+#include "../../include/auton_selector.hpp"
 
 void update_stuffs(void* param) {
   while (true) {
@@ -27,6 +28,8 @@ void initialize() {
 void disabled() {}
 
 void competition_initialize() {
+  auton_selector::create_display();
+  
   catapult::set_resting_position(catapult::resting_position);
   lift::goto_height(lift::HEIGHT_MIN);
   pros::delay(1500);
