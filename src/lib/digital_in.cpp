@@ -9,7 +9,7 @@ DigitalIn::DigitalIn(char port):
   
   // set default values
   pressed(false), 
-  pressed_new(0) {};
+  new_pressed(0) {};
 
 
 // updte reading
@@ -19,7 +19,7 @@ void DigitalIn::update() {
   bool p = !sensor.get_value(); // by default HIGH is true and LOW is false- we want this swapped
 
   // determine new press
-  pressed_new = p - pressed;
+  new_pressed = p - pressed;
 
   // save currently pressed permanently
   pressed = p;

@@ -2,6 +2,7 @@
 #define INTAKE_H_
 
 #include "../main.h"
+#include "../lib/digital_in.hpp"
 
 namespace intake {
 
@@ -20,12 +21,16 @@ namespace intake {
   // motor
   extern pros::Motor motor;
 
+  // limit switch
+  extern DigitalIn limit;
+
   // mode
   extern Mode mode;
 
   // how many balls currently loaded
   extern char max_loaded;
   extern char currently_loaded;
+  extern char in_catapult;
   extern bool in_intake;
 
   // switch mode
