@@ -49,6 +49,13 @@ namespace intake {
   }
 
 
+  // reset ball stats
+  void reset_balls() {
+    currently_loaded = 0;
+    in_catapult = 0;
+  }
+
+
   // update
   int last_update = -1500;
   int last_in_intake = -500;
@@ -58,6 +65,7 @@ namespace intake {
     if (limit.pressed) {
       in_intake = true;
       last_in_intake = pros::millis();
+      printf("in intake\n");
     }
     else in_intake = false;
     if (limit.new_pressed == -1) {
@@ -67,7 +75,7 @@ namespace intake {
     if (limit.new_pressed == 1) ++currently_loaded;
 
     if (mode == MODE_AUTO) {
-      if (in_intake && in_catapult >= max_in_catapult) motor.move_voltage(0);
+      if ((in_intake && in_catapult >= max_in_catapult) || currently_loaded > max_in_catapult) motor.move_voltage(0);
       else if (
         ball_tracker::ball_count > 0 &&
         ball_tracker::vision_sensor.get_by_size(0).y_middle_coord > AUTO_Y_THRESHOLD &&

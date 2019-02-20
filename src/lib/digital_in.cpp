@@ -16,7 +16,7 @@ DigitalIn::DigitalIn(char port):
 void DigitalIn::update() {
 
   // temporary variable to store current value
-  bool p = !sensor.get_value(); // by default HIGH is true and LOW is false- we want this swapped
+  bool p = sensor.get_value(); // by default HIGH is true and LOW is false- we want this swapped
 
   // determine new press
   new_pressed = p - pressed;

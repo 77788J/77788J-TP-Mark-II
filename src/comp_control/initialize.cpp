@@ -23,12 +23,13 @@ void initialize() {
   chassis::init();
   pros::Task update(update_stuffs);
   pros::Task macros(macros::update);
+  auton_selector::create_display();
+  intake::motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 void disabled() {}
 
 void competition_initialize() {
-  auton_selector::create_display();
   
   catapult::set_resting_position(catapult::resting_position);
   lift::goto_height(lift::HEIGHT_MIN);

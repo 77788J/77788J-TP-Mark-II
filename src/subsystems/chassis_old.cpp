@@ -103,9 +103,7 @@ namespace chassis {
   
   // move distance (relative) (inches)
   void move_dist(float left, float right, float max_vel, bool wait, bool stop) {
-    float r = right;
-    if (right == std::numeric_limits<float>::max()) r = left;
-    move_position_relative(dist_to_angle(left), dist_to_angle(r), max_vel, wait, stop);
+    move_position_relative(dist_to_angle(left), dist_to_angle(right), max_vel, wait, stop);
   }
 
 

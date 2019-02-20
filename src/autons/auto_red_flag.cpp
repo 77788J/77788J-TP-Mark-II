@@ -14,9 +14,11 @@ namespace autons {
     chassis::move_dist(-30, -30, 350);
 
     // aim and fire
-    chassis::rotate_to_orientation(90, 200);
+    chassis::rotate_to_orientation(100, 200);
     intake::set_mode(intake::MODE_OFF);
     catapult::fire();
+    pros::delay(250);
+    chassis::rotate_to_orientation(90, 200);
     pros::delay(250);
 
     // move to cap
@@ -28,10 +30,10 @@ namespace autons {
     intake::set_mode(intake::MODE_INTAKE);
     lift::goto_height(lift::HEIGHT_MAX_SIZE);
     pros::delay(250);
-    chassis::move_dist(-5, -5, 200);
+    chassis::move_dist(-12, -12, 200);
 
     // flip cap
-    chassis::move_dist(8, 8, 200);
+    chassis::move_dist(15, 15, 200);
     lift::goto_height(lift::HEIGHT_MIN);
     chassis::move_dist(3, 3, 175);
 
@@ -55,6 +57,6 @@ namespace autons {
     lift::goto_height(lift::HEIGHT_MAX_SIZE);
     chassis::move_dist(-44, -44, 350);
     chassis::rotate_to_orientation(266, 200);
-    chassis::move_dist(-16, -16, 350);
+    chassis::move_dist(-14, -14, 350);
   }
 }

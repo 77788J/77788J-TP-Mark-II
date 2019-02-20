@@ -39,6 +39,9 @@ namespace intake {
   // toggle on/off
   void toggle(Mode new_mode);
 
+  // reset ball stats
+  void reset_balls();
+
   // update
   void update(int delta_t);
 

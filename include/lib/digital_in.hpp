@@ -14,7 +14,7 @@ public:
   bool pressed;
 
   // registers NEW presses
-  char new_pressed;
+  int new_pressed;
 
   // initializer
   DigitalIn(char port);

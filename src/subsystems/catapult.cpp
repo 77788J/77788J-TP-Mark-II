@@ -1,4 +1,5 @@
 #include "../../include/subsystems/catapult.hpp"
+#include "../../include/subsystems/intake.hpp"
 
 
 // calculate nearest coterminal angle
@@ -33,6 +34,7 @@ namespace catapult {
   // fire
   void fire() {
     set_resting_position(calc_coterminal(resting_position, 1));
+    intake::reset_balls();
   }
 
 

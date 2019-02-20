@@ -23,10 +23,10 @@
 #ifndef _PROS_API_EXTENDED_H_
 #define _PROS_API_EXTENDED_H_
 
-#include "../api.h"
+#include "api.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wall"
-#include "../display/lvgl.h"
+#include "display/lvgl.h"
 #pragma GCC diagnostic pop
 
 #ifdef __cplusplus
@@ -60,8 +60,6 @@ bool task_abort_delay(task_t task);
  * task_notify_ext(task_to_notify, value, action, NULL) when target_task is
  * deleted.
  *
- * NOTE: This facility does not support the case when task_to_notify
- *       dies before target_task
  *
  * \param target_task
  *				The task being watched for deletion
