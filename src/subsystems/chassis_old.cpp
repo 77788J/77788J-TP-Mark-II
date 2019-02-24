@@ -79,7 +79,7 @@ namespace chassis {
     // set target variables
     target_left = left;
     target_right = right;
-    int end_time = pros::millis() + 650 * max(fabs(left - get_position(SIDE_LEFT)), fabs(right - get_position(SIDE_RIGHT))) / max_vel;
+    int end_time = pros::millis() + 600 * max(fabs(left - get_position(SIDE_LEFT)), fabs(right - get_position(SIDE_RIGHT))) / max_vel;
 
     // stop/continue movement
     if (stop) {

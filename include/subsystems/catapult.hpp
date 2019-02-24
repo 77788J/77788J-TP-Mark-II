@@ -6,7 +6,7 @@
 namespace catapult {
 
   // positions
-  static const float POSITION_LOAD = 70.5f; // loading angle of catapult (not slipgear)
+  static const float POSITION_LOAD = 62.69f; // loading angle of catapult (not slipgear)
   static const float POSITION_SLIP = 80; // slip angle of catapult (not slipgear)
   static const float POSITION_RELEASE = 0; // release angle of catapult (not slipgear)
 

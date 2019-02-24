@@ -62,17 +62,17 @@ namespace intake {
   void update(int delta_t) {
     limit.update();
 
-    if (limit.pressed) {
-      in_intake = true;
-      last_in_intake = pros::millis();
-      printf("in intake\n");
-    }
-    else in_intake = false;
-    if (limit.new_pressed == -1) {
-      if (motor.get_voltage() > 0) ++in_catapult;
-      else --currently_loaded;
-    }
-    if (limit.new_pressed == 1) ++currently_loaded;
+    // if (limit.pressed) {
+    //   in_intake = true;
+    //   last_in_intake = pros::millis();
+    //   printf("in intake\n");
+    // }
+    // else in_intake = false;
+    // if (limit.new_pressed == -1) {
+    //   if (motor.get_voltage() > 0) ++in_catapult;
+    //   else --currently_loaded;
+    // }
+    // if (limit.new_pressed == 1) ++currently_loaded;
 
     if (mode == MODE_AUTO) {
       if ((in_intake && in_catapult >= max_in_catapult) || currently_loaded > max_in_catapult) motor.move_voltage(0);
@@ -86,7 +86,7 @@ namespace intake {
         last_update = pros::millis();
         motor.move_voltage(12000);
       }
-      else if (pros::millis() - last_update <= 1500 || pros::millis() - last_in_intake <= 500) motor.move_voltage(12000);
+      else if (pros::millis() - last_update <= 2000 || pros::millis() - last_in_intake <= 500) motor.move_voltage(12000);
       else motor.move_voltage(0);
     }
   }

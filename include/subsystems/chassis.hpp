@@ -6,7 +6,7 @@
 namespace chassis {
 
   // physical characteristics
-  static const float WHEEL_DIST = 15.f; // distance between wheels (inches)
+  static const float WHEEL_DIST = 14.f; // distance between wheels (inches)
   static const float WHEEL_DIAM = 4.125f; // diameter of wheels (inches)
   static const float EXT_REDUCT = 7.f/3.f; // external gear reduction (wheel/motor)
 
@@ -95,7 +95,7 @@ namespace chassis {
   void move_arc(float radius, float angle, float max_vel=300, bool wait=true, bool stop=true, bool generated=false);
   
   // wait for a movement to be finished
-  void wait_for_completion(int end_time=60000, float buffer=3);
+  void wait_for_completion(int end_time=60000, float buffer=5);
 
 }
 
