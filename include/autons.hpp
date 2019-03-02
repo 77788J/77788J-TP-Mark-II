@@ -3,6 +3,8 @@
 
 namespace autons {
 
+  static const bool SKILLS = true;
+
   // variables
   extern void (*selected)(bool);
   extern bool park;
@@ -11,6 +13,7 @@ namespace autons {
   void auto_red_flag(bool park);
   void auto_blue_flag(bool park);
   void auto_red_cap(bool park);
+  void auto_skills(bool park);
 
 }
 

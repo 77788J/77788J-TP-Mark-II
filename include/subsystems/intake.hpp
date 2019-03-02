@@ -2,7 +2,7 @@
 #define INTAKE_H_
 
 #include "../main.h"
-#include "../lib/digital_in.hpp"
+#include "../lib/analog_switch.hpp"
 
 namespace intake {
 
@@ -22,7 +22,7 @@ namespace intake {
   extern pros::Motor motor;
 
   // limit switch
-  extern DigitalIn limit;
+  extern AnalogSwitch lnie;
 
   // mode
   extern Mode mode;

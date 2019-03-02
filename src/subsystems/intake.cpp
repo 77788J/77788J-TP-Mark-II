@@ -7,8 +7,8 @@ namespace intake {
   pros::Motor motor(12, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 
-  // limit switch
-  DigitalIn limit('B');
+  // line switch
+  AnalogSwitch line('B', 1200, 1800, .85);
 
 
   // state data
@@ -60,19 +60,22 @@ namespace intake {
   int last_update = -1500;
   int last_in_intake = -500;
   void update(int delta_t) {
-    limit.update();
+    line.update();
 
-    // if (limit.pressed) {
-    //   in_intake = true;
-    //   last_in_intake = pros::millis();
-    //   printf("in intake\n");
-    // }
-    // else in_intake = false;
-    // if (limit.new_pressed == -1) {
-    //   if (motor.get_voltage() > 0) ++in_catapult;
-    //   else --currently_loaded;
-    // }
-    // if (limit.new_pressed == 1) ++currently_loaded;
+    // if (pros::millis() > 1000) {
+    if (false) {
+      if (!line.acticated) {
+        in_intake = true;
+        last_in_intake = pros::millis();
+        printf("in intake\n");
+      }
+      else in_intake = false;
+      if (line.activated_new == -1) {
+        if (motor.get_voltage() > 0) ++in_catapult;
+        else --currently_loaded;
+      }
+      if (line.activated_new == 1) ++currently_loaded;
+    }
 
     if (mode == MODE_AUTO) {
       if ((in_intake && in_catapult >= max_in_catapult) || currently_loaded > max_in_catapult) motor.move_voltage(0);
@@ -88,6 +91,8 @@ namespace intake {
       }
       else if (pros::millis() - last_update <= 2000 || pros::millis() - last_in_intake <= 500) motor.move_voltage(12000);
       else motor.move_voltage(0);
+
+      printf("intake: %d\tcatapult: %d\n", currently_loaded, in_catapult);
     }
   }
 }

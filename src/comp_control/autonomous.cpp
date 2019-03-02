@@ -14,6 +14,8 @@ void autonomous() {
   chassis::motor_front_left.tare_position();
   chassis::motor_front_right.tare_position();
   // catapult::motor.tare_position();
+
+  if (autons::SKILLS) autons::auto_skills(false);
   autons::selected(autons::park);
   
 }
