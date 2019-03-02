@@ -4,7 +4,7 @@
 
 namespace autons {
 
-  void auto_red_cap(bool park) {
+  void auto_red_cap_full(bool park) {
 
     // move to ball
     intake::set_mode(intake::MODE_INTAKE);
