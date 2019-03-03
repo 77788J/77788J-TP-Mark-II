@@ -89,13 +89,13 @@ namespace autons {
 
     // move back and turn
     chassis::move_dist(-14, -14, 200);
-    chassis::rotate_to_orientation(190, 200);
+    chassis::rotate_to_orientation(186, 200);
 
     // get ball
     intake::set_mode(intake::MODE_INTAKE);
     chassis::move_dist(26, 26, 420);
     pros::delay(500);
-    chassis::move_dist(-25, -25, 420);
+    chassis::move_dist(-26.5, -26.5, 420);
     pros::delay(250);
 
     // shoot flag
@@ -123,11 +123,13 @@ namespace autons {
     chassis::rotate_to_orientation(-190, 200);
     chassis::move_dist(38, 38, 200);
     chassis::rotate_to_orientation(-90, 200);
-    lift::goto_height(lift::HEIGHT_MIN + 4);
+    lift::goto_height(lift::HEIGHT_MIN);
 
     // park
     chassis::move_voltage(4000, 4000);
     pros::delay(2000);
-    chassis::move_dist(-92, -92, 600);
+    lift::goto_height(lift::HEIGHT_MIN + 4);
+    pros::delay(500);
+    chassis::move_dist(-94, -94, 600);
   }
 }

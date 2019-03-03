@@ -14,6 +14,8 @@ namespace autons {
 
   void auto_blue_flag(bool park) {
 
+    int start_time = pros::millis();
+
     // move to ball
     intake::set_mode(intake::MODE_INTAKE);
     chassis::move_dist(30.6, 30.6, 350, true, false);
@@ -52,11 +54,10 @@ namespace autons {
     chassis::move_dist(15, 15, 300);
     lift::goto_height(lift::HEIGHT_MIN);
     chassis::move_dist(16, 16, 300);
-    chassis::rotate_to_orientation(-63, 200);
+    chassis::rotate_to_orientation(-46.9, 200);
 
     // wait for balls to be in catapult
-    int timeout = pros::millis() + 1769;
-    while (intake::in_catapult < 2 && pros::millis() < timeout) pros::delay(10);
+    while (pros::millis() - start_time < 14000) pros::delay(10);
     intake::set_mode(intake::MODE_OFF);
 
     // shoot flags
